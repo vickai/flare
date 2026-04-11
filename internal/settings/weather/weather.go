@@ -1,6 +1,7 @@
 package weather
 
 import (
+	"html/template"
 	"errors"
 	"net/http"
 	"time"
@@ -112,6 +113,7 @@ func render(c *echo.Context, testResult string) error {
 	m["SettingPages"] = define.SettingPages
 	m["SettingsURI"] = define.RegularPages.Settings.Path
 	m["OptionTitle"] = options.Title
+	m["OptionFooter"] = template.HTML(options.Footer)
 	m["SettingPagesAPI"] = define.SettingPagesAPI
 	m["Location"] = location
 	m["TestResult"] = testResult

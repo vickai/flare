@@ -1,6 +1,7 @@
 package search
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/labstack/echo/v5"
@@ -49,5 +50,6 @@ func pageSearch(c *echo.Context) error {
 	m["ShowSearchComponent"] = options.ShowSearchComponent
 	m["DisabledSearchAutoFocus"] = options.DisabledSearchAutoFocus
 	m["OptionTitle"] = options.Title
+	m["OptionFooter"] = template.HTML(options.Footer)
 	return c.Render(http.StatusOK, "settings.html", m)
 }
