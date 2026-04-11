@@ -45,7 +45,7 @@ FROM alpine:3.18
 ENV TZ=Asia/Shanghai
 
 # 安装时区数据并清理缓存
-RUN apk add --no-cache tzdata && \
+RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     rm -rf /var/cache/apk/*
