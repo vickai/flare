@@ -4,6 +4,7 @@ import (
 	"embed"
 	"io/fs"
 	"log"
+	"os" // 新增 os 包用于读取本地文件
 	"path/filepath"
 	"strings"
 
@@ -50,6 +51,22 @@ func GetIconByName(name string) string {
 	if name == "" {
 		return _EMPTY_ICON
 	}
+
+	// ====================================================
+	// 🚀 新增功能：拦截 .svg 后缀，直接读取本地自定义 SVG 文件
+	// ====================================================
+	if strings.HasSuffix(strings.ToLower(name), ".svg") {
+		// 默认从运行目录下的 icons 文件夹读取
+		svgPath := filepath.Join("icons", name)
+		content, err := os.ReadFile(svgPath)
+		if err == nil {
+			// 直接将读取到的 SVG 代码作为字符串返回，直接嵌入，不改变原 HTML 结构
+			return string(content)
+		}
+		log.Println("读取自定义 SVG 失败:", err)
+	}
+	// ====================================================
+
 	icon := iconMap[strings.ToLower(name)]
 	if icon == "" {
 		return _EMPTY_ICON
