@@ -55,4 +55,17 @@ TBD
 │   ├── settings
 │   └── version
 └── main.go
+
+
+# 下载依赖包
+go mod tidy
+
+# 直接运行项目
+go run main.go
+
+go run main.go --debug
+
+#执行编译脚本
+go run build/build.go
+
 ```
