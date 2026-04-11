@@ -1,29 +1,45 @@
 #search-container #search {
-  width: 100%;
-  padding: 10px 0;
-  color: var(--color-primary);
-  font-size: 20px;
-  /* margin-bottom: 20px; */
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+  font-size: 18px;
+  padding: 5px 0;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid #0cbd85;
   background-color: transparent;
-  border: none;
-  border-bottom: 2px solid var(--color-accent);
+  color: #747e9b;
+  font-weight: 620;
   opacity: 0.5;
-  transition: all 0.2s;
   outline: none;
+  width: 100%;
+  transition: all 1s;
 }
 
+#search-container #search:focus {
+  color: #31d49a;
+  border-bottom: 2px solid #0cbd85;
+  opacity: 1;
+}
+
+#search-container a,
 #search-container #search-label {
-  text-align: right;
+  text-align: left;
   width: 100%;
   display: block;
   opacity: 0;
+  font-size: 12px;
+  color: #31d49a;
+  line-height: 20px;
+  font-weight: 620;
+
 }
 
-#search-container #search:active + label {
+#search-container #search:active+label {
   opacity: 1;
   transition: all 0.2s;
 }
-#search-container #search:focus + label {
+
+#search-container #search:focus+label {
   opacity: 1;
   transition: all 0.2s;
 }

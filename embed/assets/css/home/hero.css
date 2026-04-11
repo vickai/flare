@@ -1,30 +1,114 @@
 #page-home #hero-container {
   position: relative;
+  min-height: 95px;
 }
 
-#plugin-datetime {
+#sub-page #hero-container {
+  display: none;
 }
 
-#plugin-weather{
+#plugin-datetime {}
+
+#plugin-weather {
   position: absolute;
   right: 20px;
   top: 30px;
 }
 
 #page-home #hero-container p {
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   text-transform: uppercase;
   height: 30px;
+  text-align: right;
+}
+
+#plugin-greetings {
+  font-size: 34px;
+  font-weight: 620;
+  text-align: left;
+  transition: all 1s;
+  border: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: linear-gradient(135deg, #c79eff, #00e0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+#page-home #hero-container #plugin-weather .pull-left {
+  height: 64px;
+  width: 64px;
+}
+
+#page-home #hero-container #plugin-weather .pull-left svg {
+  height: 64px;
+  width: 64px;
 }
 
 #hero-container .weather-value-container {
   justify-content: center;
   font-size: 16px;
   margin-left: 10px;
-  font-weight: 500;
+  font-weight: 620;
+  height: 64px;
 }
 
-#hero-container .weather-value-container p:first-child {
-  border-bottom: 1px solid var(--color-primary);
-  padding-bottom: 5px;
+#page-home #hero-container #plugin-weather .weather-value-container p {
+  height: 32px;
+  line-height: 32px;
+  font-weight: 620;
+  text-align: left;
+  font-size: 18px;
+}
+
+.sub-page-header {
+  display: flex;
+  align-items: end;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.sub-page-header h1 {
+  font-size: 34px;
+  font-weight: 620;
+  text-align: left;
+  transition: all 1s;
+  border: none;
+  background: linear-gradient(135deg, #c79eff, #00e0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+}
+
+.sub-page-header p {
+  display: inline-block;
+  margin-left: 15px;
+  margin-bottom: 11px;
+}
+
+.sub-page-header p a {
+  background: rgba(58, 43, 128, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  padding: 2px 8px;
+  text-align: center;
+  font-size: 12px;
+  transition: all 0.5s;
+  color: #8e909c;
+}
+
+.sub-page-header p a:hover {
+  background: rgba(58, 43, 128, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #f1f5f9;
 }

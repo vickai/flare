@@ -245,6 +245,7 @@ func pageBookmark(c *echo.Context) error {
 	m["SettingsURI"] = define.RegularPages.Settings.Path
 	m["Bookmarks"] = GenerateBookmarkTemplate("", &options)
 	m["OptionTitle"] = options.Title
+	m["OptionFooter"] = template.HTML(options.Footer)
 	m["OptionOpenBookmarkNewTab"] = options.OpenBookmarkNewTab
 	m["OptionShowBookmarks"] = options.ShowBookmarks
 	m["OptionHideSettingsButton"] = options.HideSettingsButton
@@ -275,6 +276,7 @@ func pageApplication(c *echo.Context) error {
 	m["SubPage"] = true
 	m["PageAppearance"] = define.GetAppBodyStyle()
 	m["OptionTitle"] = options.Title
+	m["OptionFooter"] = template.HTML(options.Footer)
 	m["OptionOpenAppNewTab"] = options.OpenAppNewTab
 	m["OptionShowApps"] = options.ShowApps
 	m["OptionHideSettingsButton"] = options.HideSettingsButton

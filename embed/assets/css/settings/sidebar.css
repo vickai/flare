@@ -1,28 +1,32 @@
 #page-settings .sidebar {
   position: absolute;
   left: 0;
-  width: 100px;
+  width: 120px;
+  padding: 20px 0;
   list-style: none;
+  height: 100%;
+  background-color: #033b3b;
+  border-radius: 8px 0 0 8px;
 }
 
 #page-settings .sidebar a {
-  padding-left: 7px;
-  border-left: 3px solid transparent;
   display: block;
   height: 40px;
   line-height: 40px;
   transition: all 0.3s;
+  border-left: 2px solid transparent;
+  padding-left: 20px;
+  font-weight: 400;
+}
+
+#page-settings .sidebar a:hover {
+  border-left: 2px solid #31d49a;
 }
 
 #page-settings .sidebar a.active {
-  border-left: 3px solid var(--color-primary);
-}
-
-#page-settings .sidebar:hover a.active {
-  border-left: 3px solid transparent;
-}
-
-#page-settings .sidebar a:hover,
-#page-settings .sidebar a.active:hover {
-  border-left: 3px solid var(--color-primary);
+  border-left: 2px solid #31d49a;
+  border-left: 2px solid #31d49a;
+  background-color: rgba(49, 212, 154, 0.1);
+  color: #31d49a;
+  font-weight: 620;
 }

@@ -1,9 +1,8 @@
-
 .toolbar-container {
   width: 38px;
   position: fixed;
-  bottom: var(--spacing-ui);
-  left: var(--spacing-ui);
+  bottom: 20px;
+  right: 30px;
   display: block;
   -webkit-justify-content: center;
   justify-content: center;
@@ -23,9 +22,13 @@
 }
 
 #btn-open-settings svg {
-  color: var(--color-primary);
+  color: #f1f5f9;
   width: 90%;
   margin-top: 2px;
+}
+
+#btn-open-settings svg path {
+  fill: #f1f5f9 !important;
 }
 
 #btn-open-settings span {
@@ -45,9 +48,13 @@
 }
 
 #btn-open-help svg {
-  color: var(--color-primary);
+  color: #f1f5f9;
   width: 90%;
   margin-top: 2px;
+}
+
+#btn-open-help svg path {
+  fill: #f1f5f9 !important;
 }
 
 #btn-open-help span {
@@ -57,7 +64,7 @@
 }
 
 
-.toolbar-btn-bg{
+.toolbar-btn-bg {
   width: 35px;
   height: 35px;
   background-color: var(--color-accent);
@@ -73,10 +80,152 @@
 
   opacity: 0.25;
 }
+
 .toolbar-btn-bg:hover {
   opacity: 1;
 }
-.toolbar-btn-settings{
+
+.toolbar-btn-settings {
   margin: 0 0 10px 0;
 }
+
+
+
+
+
+
+@media (max-width: 1200px) {
+  #page-home.pageview .container {
+    width: 100%;
+    padding: 15px;
+    margin: 0 auto;
+  }
+}
+
+
+@media (max-width: 768px) {
+  #page-home.pageview .container {
+    width: 100%;
+    padding: 15px;
+    margin: 0 auto;
+  }
+
+  #search-container #search {
+    font-size: 16px;
+  }
+
+  #page-home #hero-container {
+    min-height: 55px;
+    margin-top: 10px;
+  }
+
+  #page-home #hero-container p {
+    display: none;
+  }
+
+  #plugin-greetings {
+    font-size: 24px;
+    top: -5px;
+  }
+
+  #plugin-weather {
+    top: -18px;
+  }
+
+  #page-home #hero-container #plugin-weather .weather-value-container p {
+    display: inline-block;
+    line-height: 64px;
+    height: 64px;
+    font-size: 14px;
+  }
+
+  .plugin-container h2 {
+    margin-bottom: 5px;
+  }
+
+  .plugin-container h2 a {
+    font-size: 16px;
+  }
+
+  #container-apps .apps-container .app-container {
+    padding: 5px;
+  }
+
+  #container-apps .apps-container .app-item {
+    padding: 5px;
+    height: 46px;
+    margin: 5px 0;
+  }
+
+  #container-apps .apps-container .app-icon {
+    height: 36px;
+    width: 36px;
+    left: 5px;
+  }
+
+  #container-apps .apps-container .app-text {
+    margin-left: 40px;
+  }
+
+  #container-apps .apps-container .app-title {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  #container-apps .apps-container .app-desc {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  #container-bookmakrs .bookmark-group-container {
+    width: 50%;
+    margin-bottom: 15px;
+    padding: 5px;
+    float: none;
+  }
+
+  #container-bookmakrs .bookmark-group-container .bookmark-group-title,
+  #container-bookmakrs .bookmark-group-container .bookmark-list {
+    padding: 5px;
+  }
+
+  #container-bookmakrs .bookmark-group-container h3.bookmark-group-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  #container-bookmakrs .bookmark-group-container .bookmark-list li {
+    padding: 0 6px 0 0;
+  }
+
+  #container-bookmakrs .bookmark-group-container .bookmark-list a.bookmark {
+    font-size: 13px;
+  }
+
+  #container-bookmakrs .bookmark-group-container .bookmark svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .toolbar-container {
+    display: none;
+  }
+}
+
+
+
+
+@media (max-width: 375px) {
+  #page-home.pageview .container {
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1201px) {
+  #page-home.pageview .container {
+    width: 90%;
+    padding: 50px 250px 20px;
+  }
 }

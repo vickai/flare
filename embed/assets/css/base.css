@@ -5,13 +5,9 @@
 }
 
 body {
-  --color-background: #2d3436;
-  --color-primary: #effbff;
-  --color-accent: #ffa500;
-  --spacing-ui: 10px;
-  background-color: var(--color-background);
+  background-color: #030e23;
   transition: background-color 0.3s;
-  font-family: Roboto, sans-serif;
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-size: 14px;
 }
 
@@ -24,7 +20,7 @@ div,
 p,
 a,
 span {
-  color: var(--color-primary);
+  color: #f1f5f9;
 }
 
 a {
@@ -70,7 +66,7 @@ h2 a {
 }
 
 .container {
-  padding: 25px 40px;
+  padding: 25px 250px 50px;
   width: 90%;
   margin: 0 auto;
 }
@@ -87,22 +83,67 @@ h2 a {
   user-select: none;
 }
 
-#container-apps,
-#container-bookmakrs {
-  margin: 2rem 0;
+#container-apps {
+  background-color: #071c38;
+  border-bottom: 1px solid #123361;
+  border-right: 1px solid #123361;
+  border-left: 1px solid #123361;
+  border-radius: 8px;
+  border-top: 2px solid #3984f6;
+  margin: 0 0 40px;
+  padding: 20px;
 }
+
+#container-bookmakrs {
+  background-color: #0b1435;
+  border-bottom: 1px solid #1b1d51;
+  border-right: 1px solid #1b1d51;
+  border-left: 1px solid #1b1d51;
+  border-radius: 8px;
+  border-top: 2px solid #8f61f6;
+  margin: 0 0 40px;
+  padding: 20px;
+}
+
+
+
+
 
 .plugin-container h2 {
   font-weight: 900;
   font-size: 20px;
   margin-bottom: 16px;
+  position: relative;
+}
+
+.plugin-container h2:after {
+  content: " ";
+  box-sizing: border-box;
+  border-top-width: 1px;
+  display: block;
+  height: 1px;
+  border-top-style: dotted;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+}
+
+.plugin-container h2 a {
+  font-size: 22px;
+  font-weight: 400;
+  color: #f1f5f9;
+  position: relative;
+  padding-right: 8px;
+  z-index: 9;
 }
 
 #page-home .footer-container {
-  /* position: absolute; */
   text-align: center;
-  bottom: 10px;
-  right: 40px;
+  opacity: 0.6;
+}
+
+#page-settings .footer-container {
+  text-align: center;
   opacity: 0.6;
 }
 
@@ -112,32 +153,4 @@ h2 a {
 
 #page-home.pageview .container {
   min-width: 360px;
-}
-
-@media (max-width: 1200px) {
-  #page-home.pageview .container {
-    width: 90%;
-  }
-}
-
-@media (max-width: 768px) {
-  #page-home.pageview .container {
-    width: 90%;
-    padding: 20px;
-    margin: 0 auto;
-  }
-}
-@media (max-width: 375px) {
-  #page-home.pageview .container {
-    width: 100%;
-    padding: 20px;
-    margin: 0 auto;
-  }
-}
-
-@media (min-width: 1201px) {
-  #page-home.pageview .container {
-    width: 90%;
-    padding: 50px 250px;
-  }
 }

@@ -1,3 +1,29 @@
+#container-apps {
+  background-color: #071c38;
+  border-bottom: 1px solid #123361;
+  border-right: 1px solid #123361;
+  border-left: 1px solid #123361;
+  border-radius: 8px;
+  border-top: 2px solid #3984f6;
+  margin: 0 0 40px;
+  padding: 20px;
+}
+
+#container-apps h2:after {
+  border-top-color: #123361;
+}
+
+#container-apps h2 a {
+  background: #071c38;
+}
+
+#container-apps h2 a:before {
+  content: "⚙️";
+  box-sizing: border-box;
+  margin-right: 5px;
+}
+
+
 #container-apps .apps-container {
   width: 100%;
 }
@@ -5,41 +31,57 @@
 #container-apps .apps-container .app-container {
   float: left;
   width: 25%;
+  padding: 10px;
 }
 
 #container-apps .apps-container .app-item {
+  height: 62px;
+  padding: 8px 10px 8px 16px;
+  border-color: #071c38;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #071c38;
+  transition: all .75s;
   display: block;
-  padding: 2px 4px;
   margin: 12px 0;
-  height: 40px;
   overflow: hidden;
   position: relative;
 }
 
 #container-apps .apps-container .app-item:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  transition: all .1s;
+  border-color: #153e76;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #0a2449;
 }
 
+
 #container-apps .apps-container .app-icon {
-  width: 35px;
-  height: 35px;
+  height: 46px;
+  width: 46px;
+  left: 16px;
   position: absolute;
-  left: 5px;
 }
 
 #container-apps .apps-container .app-icon * {
-  width: 90%;
-  color: var(--color-primary);
+  width: 98%;
+  height: 98%;
+  color: #f1f5f9;
+}
+
+#container-apps .apps-container .app-icon svg path {
+  fill: #f1f5f9 !important;
+  transition: all .75s;
 }
 
 /* 非inline模式 */
-#container-apps .apps-container .app-icon img{
+#container-apps .apps-container .app-icon img {
   display: block;
-  width: 32px;
-  height: 32px;
-  color: var(--color-primary);
+  height: 46px;
+  width: 46px;
+  color: #f1f5f9;
 }
 
 .app-content-uppercase #container-apps .apps-container .app-text {
@@ -47,33 +89,44 @@
 }
 
 #container-apps .apps-container .app-text {
-  margin-left: 35px;
+  margin-left: 50px;
+  text-transform: none !important;
 }
 
 #container-apps .apps-container .app-title {
-  font-size: 1em;
-  font-weight: 500;
-  margin-bottom: -4px;
-
+  font-size: 16px;
+  font-weight: 620;
+  color: #f1f5f9;
+  line-height: 26px;
+  transition: all .75s;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 #container-apps .apps-container .app-desc {
-  color: var(--color-accent);
-  font-weight: 400;
-  font-size: 0.8em;
+  font-size: 14px;
+  color: #95a4b9;
+  line-height: 20px;
+  font-weight: 620;
+  transition: all .75s;
   opacity: 1;
-
-
-  margin-top: 4px;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+#container-apps .apps-container .app-item:hover .app-icon svg path {
+  fill: #60a6fa !important;
+}
+
+#container-apps .apps-container .app-item:hover .app-title {
+  color: #60a6fa;
+}
+
+#container-apps .apps-container .app-item:hover .app-desc {
+  color: rgba(96, 166, 250, 0.7);
+}
 
 @media (max-width: 767px) {
   #container-apps .apps-container .app-container {

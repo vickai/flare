@@ -1,41 +1,77 @@
+#page-settings .main-container {
+  background-color: #031e2a;
+  border-top: 2px solid #31d49a;
+  border-right: 1px solid #033b3b;
+  border-bottom: 1px solid #033b3b;
+  border-left: 1px solid #033b3b;
+  border-radius: 8px;
+  position: relative;
+}
+
+
 #page-settings .form-group label,
 #page-settings .form-group select,
 #page-settings .form-group input.btn-submit,
 #page-settings .form-group input.option-input {
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   display: block;
+  font-size: 13px;
+  font-weight: normal;
 }
 
 #page-settings .form-group select {
   margin: 8px 0;
   width: 100%;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   padding: 10px;
-  background-color: var(--color-primary);
-  color: var(--color-background);
+  background-color: #033b3b;
+  color: #f1f5f9;
+}
+
+#page-settings .form-group select:focus,
+#page-settings .form-group select:active {
+  border: 1px solid #31d49a;
+  color: #31d49a;
 }
 
 #page-settings .form-group input.option-input {
   margin: 8px 0;
   width: 100%;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   padding: 10px;
-  background-color: var(--color-primary);
-  color: var(--color-background);
+  background-color: #033b3b;
+  color: #f1f5f9;
+  border: 1px solid transparent;
+  transition: all 0.5s;
+}
+
+#page-settings .form-group input.option-input:focus,
+#page-settings .form-group input.option-input:focus-visible {
+  border: 1px solid #31d49a;
+  outline: none;
+  color: #31d49a;
 }
 
 #page-settings .form-group .help-text {
   font-size: 12px;
-  color: var(--color-primary);
+  color: #f1f5f9;
 }
 
 #page-settings .form-group input.btn-submit {
   padding: 8px 15px;
-  border: 1px solid var(--color-accent);
-  background-color: var(--color-background);
-  color: var(--color-primary);
+  border: 1px solid transparent;
+  background-color: #033b3b;
+  color: #31d49a;
   border-radius: 4px;
+  cursor: pointer;
+  font-weight: 620;
+  transition: all 0.5s;
+}
+
+#page-settings .form-group input.btn-submit:hover {
+  border: 1px solid #31d49a;
 }
 
 #page-settings .container {
@@ -44,27 +80,62 @@
   margin: 0;
 }
 
-#page-settings h1 {
-  font-size: 30px;
+#page-settings .header {
+  display: flex;
+  align-items: end;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
-#page-settings .main-container {
-  margin: 20px 0;
-  position: relative;
+#page-settings .header h1 {
+  font-size: 24px;
+  font-weight: 400;
+  display: inline-block;
+  color: #31d49a;
 }
+
+#page-settings .header p {
+  display: inline-block;
+  margin-left: 15px;
+  margin-bottom: 6px;
+}
+
+#page-settings p a {
+  background-color: #174546;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  transition: all 0.5s;
+  color: #dce3e3;
+}
+
+#page-settings p a:hover {
+  background-color: #34585d;
+  color: #8ea2a4;
+}
+
+
+
 
 #page-settings .main-container .setting-group-container {
-  margin-left: 110px;
+  margin-left: 140px;
+  padding: 20px;
 }
 
 #page-settings.pageview .container {
   min-width: 375px;
 }
 
+#page-settings .footer-container {
+  text-align: center;
+  opacity: 0.6;
+  margin-top: 25px;
+}
+
 @media (min-width: 1201px) {
   #page-settings.pageview .container {
     width: 90%;
-    padding: 50px 250px;
+    padding: 50px 250px 20px;
     margin: 0 auto;
   }
 }
@@ -94,11 +165,32 @@
 
 .setting-group-container h2 {
   margin-bottom: 10px;
+  position: relative;
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.setting-group-container h2:first-of-type {
+  margin-top: 0;
+}
+
+.setting-group-container h2:after {
+  content: " ";
+  box-sizing: border-box;
+  border-top-width: 1px;
+  display: block;
+  height: 1px;
+  border-top-style: dotted;
+  position: absolute;
+  width: calc(100% - 100px);
+  left: 100px;
+  top: 50%;
+  border-top-color: #033b3b;
 }
 
 .setting-group-container .form-group .help-text {
   margin-bottom: 12px;
-  text-decoration: underline;
   font-style: italic;
   opacity: 0.8;
 }
@@ -117,28 +209,41 @@
 #page-settings .form-group input.option-input {
   margin-top: 6px;
   margin-bottom: 6px;
+  outline: none;
 }
 
 #page-settings .form-group textarea {
-  resize: none;
   width: 100%;
   height: 80px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   padding: 10px;
-  background-color: var(--color-primary);
-  color: var(--color-background);
+  background-color: #033b3b;
+  color: #f1f5f9;
+  border: 1px solid transparent;
+  transition: all 0.5s;
   margin-top: 6px;
   margin-bottom: 6px;
+  resize: vertical;
+  overflow: auto;
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+}
+
+#page-settings .form-group textarea:focus {
+  border: 1px solid #31d49a;
+  outline: none;
+  color: #31d49a;
 }
 
 #page-settings .form-about p {
   line-height: 2;
 }
+
 #page-settings .form-about a {
   margin: 0 4px;
-  border-bottom: 1px dotted #ccc;
+  color: #31d49a;
 }
+
 #page-settings .form-about hr {
   margin: 10px 0;
 }

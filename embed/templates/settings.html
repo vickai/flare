@@ -16,7 +16,7 @@
   <style type="text/css">{{.PageInlineStyle}}</style>
   {{ end }}
 </head>
-<body style="{{.PageAppearance}}" >
+<body>
   <div class="pageview" id="page-settings">
     <div class="container">
       {{ template "settings-header.html" . }}
@@ -30,7 +30,7 @@
         {{ if eq .PageName "Weather" }}
           {{ template "settings-weather.html" . }}
         {{ end }}
-        
+
         {{ if eq .PageName "Search" }}
           {{ template "settings-search.html" . }}
         {{ end }}
@@ -50,6 +50,5 @@
 
     </div>
   </div>
-  <script>document.addEventListener('keydown',function(e){if(e.key==='Escape')history.back();});</script>
 </body>
 </html>
