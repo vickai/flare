@@ -51,7 +51,9 @@ jobs:
           file: docker/manual/Dockerfile.amd64
           platforms: linux/amd64
           push: true
-          # 同时打上你指定的 version_tag 和 latest 两个标签
+          # 👇 新增这一段，传入 Dockerfile 需要的基础镜像变量
+          build-args: |
+            FLARE_BASE_IMAGE=golang:1.22-alpine
           tags: |
             ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version_tag }}
             ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:latest
