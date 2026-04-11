@@ -21,7 +21,17 @@
   opacity: 1;
 }
 
-#search-container a,
+#search-container a {
+  text-align: left;
+  width: 100%;
+  display: block;
+  opacity: 1;
+  font-size: 12px;
+  color: #31d49a;
+  line-height: 20px;
+  font-weight: 620;
+
+}
 #search-container #search-label {
   text-align: left;
   width: 100%;
@@ -33,12 +43,10 @@
   font-weight: 620;
 
 }
-
 #search-container #search:active+label {
   opacity: 1;
   transition: all 0.2s;
 }
-
 #search-container #search:focus+label {
   opacity: 1;
   transition: all 0.2s;
