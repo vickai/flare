@@ -1,19 +1,32 @@
+# 允许从外部传入基础镜像版本
 ARG FLARE_BASE_IMAGE
-FROM $FLARE_BASE_IMAGE AS Builder
+FROM $FLARE_BASE_IMAGE AS builder
+
+# 设置工作目录
+WORKDIR /app
+
+# 关键步骤：将仓库所有源码复制到容器内
+COPY . .
+
+# 运行原作者的构建脚本（压缩 CSS/HTML 到 internal/resources）
 RUN go run build/build.go
+
+# 读取版本信息并编译二进制文件
 RUN export VERSION=$(cat RELEASE_VERSION) && \
     export COMMIT=$(cat RELEASE_COMMIT) && \
-    export BUILD_DATE=`date +%FT%T%z` && \
-    echo "$BUILD_DATE / $COMMIT / $VERSION" && \
-    GOARCH=amd64 go build -ldflags "-w -s -X 'github.com/soulteary/version-kit.Version=$VERSION' -X 'github.com/soulteary/version-kit.Commit=$COMMIT' -X 'github.com/soulteary/version-kit.BuildDate=$BUILD_DATE'" -o flare main.go
-RUN upx -9 -o flare.minify flare && mv flare.minify flare
+    go build -ldflags "-X 'github.com/soulteary/flare/config/define.CLIVersion=$VERSION' -X 'github.com/soulteary/flare/config/define.CLIDate=$(date +%Y.%m.%d)' -X 'github.com/soulteary/flare/config/define.CLICommit=$COMMIT'" -o flare main.go
 
+# 最终运行阶段：使用最小化的 Alpine 镜像
+FROM alpine:3.18
+RUN apk add --no-cache tzdata
 
-FROM alpine:3.16
-COPY --from=Builder /app/flare /bin/flare
-ENV TZ=Asia/Shanghai
-RUN apk add tzdata && \
-    cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    rm -rf /var/cache/apk/*
 WORKDIR /app
-CMD ["flare"]
+
+# 从编译阶段拷贝成品
+COPY --from=builder /app/flare .
+
+# 预创建 icons 目录，方便挂载自定义 SVG
+RUN mkdir -p /app/icons
+
+EXPOSE 5005
+CMD ["./flare"]

@@ -26,7 +26,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 设置 Docker Buildx (用于构建镜像的高级引擎)
+      # 设置 Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -38,12 +38,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Docker 镜像名称必须全小写，此步骤将 GitHub 用户名自动转为小写
+      # 将 GitHub 用户名自动转为小写（Docker 命名规范要求）
       - name: Lowercase Repository Owner
         run: |
           echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      # 使用原作者提供的 amd64 Dockerfile 进行构建并推送
+      # 构建并推送镜像
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -51,7 +51,7 @@ jobs:
           file: docker/manual/Dockerfile.amd64
           platforms: linux/amd64
           push: true
-          # 👇 新增这一段，传入 Dockerfile 需要的基础镜像变量
+          # 传入 Dockerfile 第一行需要的 ARG 变量
           build-args: |
             FLARE_BASE_IMAGE=golang:1.22-alpine
           tags: |
