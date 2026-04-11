@@ -12,6 +12,7 @@ on:
 env:
   # 你指定的镜像名称
   IMAGE_NAME: flare-vickai
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-and-push:
