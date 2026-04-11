@@ -51,6 +51,7 @@ jobs:
           file: docker/manual/Dockerfile.amd64
           platforms: linux/amd64
           push: true
+          provenance: false
           # 传入 Dockerfile 第一行需要的 ARG 变量
           build-args: |
             FLARE_BASE_IMAGE=golang:alpine
