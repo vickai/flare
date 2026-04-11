@@ -1,32 +1,70 @@
-# 允许从外部传入基础镜像版本
+# ==========================================
+# 阶段 1: 编译环境 (Builder)
+# ==========================================
 ARG FLARE_BASE_IMAGE
 FROM $FLARE_BASE_IMAGE AS builder
+
+# 安装构建必备工具：
+# upx: 用于极致压缩二进制体积
+# ca-certificates: 确保构建过程中可能的网络请求安全
+RUN apk add --no-cache upx ca-certificates
 
 # 设置工作目录
 WORKDIR /app
 
-# 关键步骤：将仓库所有源码复制到容器内
+# 关键：将当前仓库所有源码复制到容器内，否则无法执行 go run build/build.go
 COPY . .
 
-# 运行原作者的构建脚本（压缩 CSS/HTML 到 internal/resources）
+# 1. 执行原作者的样式与模板预处理脚本
 RUN go run build/build.go
 
-# 读取版本信息并编译二进制文件
+# 2. 编译 Go 二进制文件
+# CGO_ENABLED=0: 静态编译，确保二进制文件在 alpine 镜像中不依赖宿主机 C 库，彻底解决“file not found”报错
+# ldflags: 注入版本、Commit、构建日期等元数据
 RUN export VERSION=$(cat RELEASE_VERSION) && \
     export COMMIT=$(cat RELEASE_COMMIT) && \
-    go build -ldflags "-X 'github.com/soulteary/flare/config/define.CLIVersion=$VERSION' -X 'github.com/soulteary/flare/config/define.CLIDate=$(date +%Y.%m.%d)' -X 'github.com/soulteary/flare/config/define.CLICommit=$COMMIT'" -o flare main.go
+    export BUILD_DATE=`date +%FT%T%z` && \
+    echo "Building Flare: $BUILD_DATE / $COMMIT / $VERSION" && \
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags " \
+    -w -s \
+    -X 'github.com/soulteary/version-kit.Version=$VERSION' \
+    -X 'github.com/soulteary/version-kit.Commit=$COMMIT' \
+    -X 'github.com/soulteary/version-kit.BuildDate=$BUILD_DATE'" \
+    -o flare main.go
 
-# 最终运行阶段：使用最小化的 Alpine 镜像
+# 3. 使用原作者推荐的 UPX 压缩方案，大幅缩小镜像体积
+RUN upx -9 -o flare.minify flare && mv flare.minify flare
+
+
+# ==========================================
+# 阶段 2: 最终运行环境 (Runtime)
+# ==========================================
 FROM alpine:3.18
-RUN apk add --no-cache tzdata
 
+# 设置时区为上海
+ENV TZ=Asia/Shanghai
+
+# 安装时区数据并清理缓存
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
+    rm -rf /var/cache/apk/*
+
+# 关键：将程序放入 /bin 目录
+# 这样即使你把宿主机的文件夹挂载到容器的 /app，也不会覆盖或影响到程序文件
+COPY --from=builder /app/flare /bin/flare
+
+# 设置运行目录为 /app
+# 程序启动后会自动在当前目录下寻找 apps.yml / bookmarks.yml / config.yml
+# 正好对应你宿主机的挂载点
 WORKDIR /app
 
-# 从编译阶段拷贝成品
-COPY --from=builder /app/flare .
-
-# 预创建 icons 目录，方便挂载自定义 SVG
+# 预创建 icons 目录，方便用户挂载自定义 SVG
 RUN mkdir -p /app/icons
 
+# 暴露端口
 EXPOSE 5005
+
+# 启动程序
+# 因为文件在 /bin 下，所以可以直接写 "flare"
 CMD ["flare"]
