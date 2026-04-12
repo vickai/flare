@@ -108,7 +108,7 @@ func GetUserLoginDate(c *echo.Context) string {
 }
 
 func login(c *echo.Context) error {
-	sess, err := session.Get(sessionName, c)
+	// sess, err := session.Get(sessionName, c)
 	// if err != nil {
 	// 	return c.HTMLBlob(http.StatusBadRequest, internalErrorSave)
 	// }
