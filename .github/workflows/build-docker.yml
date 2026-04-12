@@ -7,7 +7,7 @@ on:
       version_tag:
         description: '镜像版本号'
         required: true
-        default: '0.1.1'
+        default: '0.0.0'
 
 env:
   # 你指定的镜像名称
