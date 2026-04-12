@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: '镜像版本号 (例如: 20260411)'
+        description: '镜像版本号'
         required: true
-        default: '20260411'
+        default: '0.1.1'
 
 env:
   # 你指定的镜像名称
