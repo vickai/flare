@@ -1,10 +1,47 @@
 {{ define "settings-sidebar.html" }}
 <div class="sidebar pull-left">
-    {{ $pagename := .PageName }}
-    <a href="{{ .SettingPages.Theme.Path }}" {{if eq .PageName .SettingPages.Theme.Name}}class="active" {{end}}>{{ T .Locale "nav_theme" }}</a>
-    <a href="{{ .SettingPages.Weather.Path }}" {{if eq .PageName .SettingPages.Weather.Name}}class="active" {{end}}>{{ T .Locale "nav_weather" }}</a>
-    <a href="{{ .SettingPages.Search.Path }}" {{if eq .PageName .SettingPages.Search.Name}}class="active" {{end}}>{{ T .Locale "nav_search" }}</a>
-    <a href="{{ .SettingPages.Appearance.Path }}" {{if eq .PageName .SettingPages.Appearance.Name}}class="active"{{end}}>{{ T .Locale "nav_appearance" }}</a>
-    <a href="{{ .SettingPages.Others.Path }}" {{if eq .PageName .SettingPages.Others.Name}}class="active" {{end}}>{{ T .Locale "nav_others" }}</a>
+    {{ $pagename := .PageName}}
+
+{{ if eq .PageName "Theme" }}
+    <a href="{{ .SettingPages.Theme.Path }}" class="active">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+{{ if eq .PageName "Weather" }}
+    <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}" class="active">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+{{ if eq .PageName "Search" }}
+    <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}" class="active">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+{{ if eq .PageName "Appearance" }}
+    <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}" class="active">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+{{ if eq .PageName "Others" }}
+    <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}" class="active">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+
 </div>
 {{ end }}

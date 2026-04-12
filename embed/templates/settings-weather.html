@@ -1,6 +1,6 @@
 {{ define "settings-weather.html" }}
 <div class="setting-group-container">
-    <h2>{{ T .Locale "settings_weather" }}</h2>
+    <h2><span>{{ T .Locale "settings_weather" }}</span></h2>
     <form method="POST" action="{{ .SettingPages.Weather.Path }}">
 
         <div class="form-group">

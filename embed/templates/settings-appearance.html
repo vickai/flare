@@ -2,7 +2,7 @@
 <div class="setting-group-container">
 
     <form method="POST" action="{{ .SettingPages.Appearance.Path }}">
-        <h2>{{ T .Locale "general_settings" }}</h2>
+        <h2><span>{{ T .Locale "general_settings" }}</span></h2>
         <div class="form-group">
             <label for="settings-locale">{{ T .Locale "language" }}</label>
             <select name="locale" id="settings-locale">
