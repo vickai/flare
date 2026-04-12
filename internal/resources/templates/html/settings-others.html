@@ -5,7 +5,7 @@
 {{ if .UserIsLogin }}
 <form method="POST" action="{{.LogoutURI}}">
 <div class="form-group form-about">
-<h2>{{ T .Locale "login" }}</h2>
+<h2><span>{{ T .Locale "login" }}</span></h2>
 <div class="form-group">
 <p>{{ T .Locale "current_user" }} {{.UserName}}</p>
 <p>{{ T .Locale "login_time" }} {{.LoginDate}}</p>
@@ -18,7 +18,7 @@
 {{ else }}
 <form method="POST" action="{{.LoginURI}}">
 <div class="form-group form-about">
-<h2>{{ T .Locale "login" }}</h2>
+<h2><span>{{ T .Locale "login" }}</span></h2>
 <div class="form-group">
 <label for="user-name">{{ T .Locale "username" }}</label>
 <input type="text" name="username" id="user-name" class="option-input" placeholder="{{ T .Locale `username_placeholder` }}">
@@ -30,21 +30,20 @@
 <div class="form-group">
 <input class="btn-submit" type="submit" value="{{ T .Locale `login` }}">
 </div>
-<br>
 </div>
 </form>
 {{ end }}
-<br>
 <hr>
-<br>
 {{ end }}
 <form method="POST" action="{{ .SettingPages.Others.Path }}">
 <div class="form-group form-about">
-<h2>{{ T .Locale "about_flare" }}</h2>
+<h2><span>{{ T .Locale "about_flare" }}</span></h2>
 <p>{{ T .Locale "about_desc_1" }}</p>
 <p>{{ T .Locale "about_desc_2" }}</p>
+<p>在原作者的项目上进行页面主题设定，解决了 Github 构建 Docker 镜像登录失败问题，解决了一些模板压缩 minify 带来的问题。</p>
 <br>
-<p>{{ T .Locale "project_link" }}：<a href="https://github.com/soulteary/docker-flare" target="_blank">soulteary/docker-flare</a> </p>
+<p>基于项目：<a href="https://github.com/soulteary/docker-flare" target="_blank">soulteary/docker-flare</a> </p>
+<p>{{ T .Locale "project_link" }}：<a href="https://github.com/vickai/flare" target="_blank">vickai/flare</a> </p>
 <p>{{ T .Locale "version" }}：{{ .Version }} / {{.COMMIT}}</p>
 <p>{{ T .Locale "build_date" }}：{{ .BuildDate }}</p>
 </div>

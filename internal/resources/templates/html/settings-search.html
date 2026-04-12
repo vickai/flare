@@ -1,7 +1,7 @@
 {{ define "settings-search.html" }}
 <div class="setting-group-container">
 <form method="POST" action="{{ .SettingPages.Search.Path }}">
-<h2>{{ T .Locale "page_search" }}</h2>
+<h2><span>{{ T .Locale "page_search" }}</span></h2>
 <div class="form-group">
 <label for="show-search-component">{{ T .Locale "show_search_toolbar" }}</label>
 {{ if .ShowSearchComponent }}
