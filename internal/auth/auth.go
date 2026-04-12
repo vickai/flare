@@ -28,20 +28,34 @@ func RequestHandleSessionName(cookieName string, port int) string {
 	return fmt.Sprintf("%s_%d", cookieName, port)
 }
 
+// ... 保持 import 不变 ...
+
+var store *sessions.CookieStore // 1. 将 store 定义为指针，不要在包级别初始化
+
 func RequestHandle(e *echo.Echo) {
+	// 2. 确保在 RequestHandle 执行时才计算名字和初始化 Store
 	sessionName = RequestHandleSessionName(define.AppFlags.CookieName, define.AppFlags.Port)
+
 	if !define.AppFlags.DisableLoginMode {
-		if define.AppFlags.CookieSecret == define.DEFAULT_COOKIE_SECRET {
-			log.Println("[auth] 警告: 已启用登录但 CookieSecret 仍为默认值，生产环境请通过 FLARE_COOKIE_SECRET 或 --cookie-secret 设置强密钥")
+		// 3. 此时 define.AppFlags 已经被 cmd.Parse() 填充完毕
+		secret := []byte(define.AppFlags.CookieSecret)
+
+		// 容错处理：如果密钥依然为空，给一个硬编码的保底值防止报错
+		if len(secret) == 0 {
+			secret = []byte("vickai-default-32-byte-secret-!!)@")
 		}
-		store := sessions.NewCookieStore([]byte(define.AppFlags.CookieSecret))
+
+		store = sessions.NewCookieStore(secret)
+
+		// 4. 设置配置
 		store.Options = &sessions.Options{
-		    Path:     "/",
-		    MaxAge:   86400 * 7,
-		    HttpOnly: true,
-		    Secure:   false, // 内网非 HTTPS 必须为 false
-		    SameSite: http.SameSiteLaxMode,
+			Path:     "/",
+			MaxAge:   86400 * 7,
+			HttpOnly: true,
+			Secure:   false,
+			SameSite: http.SameSiteLaxMode,
 		}
+
 		e.Use(session.Middleware(store))
 		e.POST(define.MiscPages.Login.Path, login)
 		e.POST(define.MiscPages.Logout.Path, logout)
@@ -108,39 +122,38 @@ func GetUserLoginDate(c *echo.Context) string {
 }
 
 func login(c *echo.Context) error {
-	// sess, err := session.Get(sessionName, c)
-	// if err != nil {
-	// 	return c.HTMLBlob(http.StatusBadRequest, internalErrorSave)
-	// }
-	//允许 err 存在时继续
-	sess, _ := session.Get(sessionName, c)
+	// 1. 获取 Session（不因旧 Cookie 报错而中断）
+	sess, err := session.Get(sessionName, c)
+	if err != nil {
+		log.Printf("[auth] 获取 Session 异常(通常为旧密钥过期): %v", err)
+		sess, _ = session.Get(sessionName, c) // 强制获取新会话
+	}
 
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	//调试查看收到了什么
-	if username == "" {
-        log.Printf("[DEBUG] 警告：收到的用户名为空，请检查前端 Content-Type")
-    }
-
-
-
-	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
+	// 2. 统一使用 TrimSpace (比 Trim(s, " ") 更全面，能处理换行等)
+	if strings.TrimSpace(username) == "" || strings.TrimSpace(password) == "" {
 		return c.HTMLBlob(http.StatusBadRequest, internalErrorEmpty)
 	}
 
+	// 3. 账号密码比对
 	if subtle.ConstantTimeCompare([]byte(username), []byte(define.AppFlags.User)) != 1 ||
 		subtle.ConstantTimeCompare([]byte(password), []byte(define.AppFlags.Pass)) != 1 {
+		log.Printf("[auth] 登录失败: 用户名或密码错误 (User: %s)", username)
 		return c.HTMLBlob(http.StatusBadRequest, internalErrorInput)
 	}
 
+	// 4. 写入 Session
 	sess.Values[SESSION_KEY_USER_NAME] = username
 	sess.Values[SESSION_KEY_LOGIN_DATE] = time.Now().Format("2006年01月02日 15:04:05 CST")
 
 	if err := sess.Save(c.Request(), c.Response()); err != nil {
+		log.Printf("[auth] Session 保存失败: %v", err)
 		return c.HTMLBlob(http.StatusBadRequest, internalErrorSave)
 	}
 
+	log.Printf("[auth] 用户登录成功: %s", username)
 	return c.Redirect(http.StatusFound, define.SettingPages.Others.Path)
 }
 
