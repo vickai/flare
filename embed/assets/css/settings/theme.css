@@ -1,8 +1,22 @@
 .theme-groups .theme {
   display: inline-block;
   width: 30%;
+  opacity: 0.2;
 }
-
+.theme-groups .readme {
+  margin-bottom: 40px;
+}
+.theme-groups .readme p {
+  line-height: 1.5em;
+  margin-bottom: 5px;
+}
+.theme-groups .readme pre {
+  padding: 20px;
+  border: 1px dotted #033b3b;
+  border-radius: 8px;
+  margin: 20px 0;
+  opacity: 0.8;
+}
 .theme-groups .theme .theme-container {
   width: 120px;
   border: 1px solid silver;
@@ -17,7 +31,6 @@
 .theme-groups .theme .theme-title {
   text-transform: capitalize;
   margin: 8px 0;
-  color: var(--color-primary);
   cursor: default;
 }
 
