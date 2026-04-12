@@ -56,7 +56,7 @@
 <select name="icon-mode" id="settings-icon-mode"><option value="DEFAULT">{{ T .Locale "icon_mode_default" }}</option><option value="FILLING" selected>{{ T .Locale "icon_mode_filling" }}</option></select>
 {{ end }}
 </div>
-<h2>{{ T .Locale "module_settings" }}</h2>
+<h2><span>{{ T .Locale "module_settings" }}</span></h2>
 <div class="form-group">
 <label for="settings-show-title">{{ T .Locale "show_title_component" }}</label>
 {{ if .OptionShowTitle }}
