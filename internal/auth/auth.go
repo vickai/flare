@@ -35,6 +35,13 @@ func RequestHandle(e *echo.Echo) {
 			log.Println("[auth] 警告: 已启用登录但 CookieSecret 仍为默认值，生产环境请通过 FLARE_COOKIE_SECRET 或 --cookie-secret 设置强密钥")
 		}
 		store := sessions.NewCookieStore([]byte(define.AppFlags.CookieSecret))
+		store.Options = &sessions.Options{
+		    Path:     "/",
+		    MaxAge:   86400 * 7,
+		    HttpOnly: true,
+		    Secure:   false, // 内网非 HTTPS 必须为 false
+		    SameSite: http.SameSiteLaxMode,
+		}
 		e.Use(session.Middleware(store))
 		e.POST(define.MiscPages.Login.Path, login)
 		e.POST(define.MiscPages.Logout.Path, logout)
@@ -102,11 +109,21 @@ func GetUserLoginDate(c *echo.Context) string {
 
 func login(c *echo.Context) error {
 	sess, err := session.Get(sessionName, c)
-	if err != nil {
-		return c.HTMLBlob(http.StatusBadRequest, internalErrorSave)
-	}
+	// if err != nil {
+	// 	return c.HTMLBlob(http.StatusBadRequest, internalErrorSave)
+	// }
+	//允许 err 存在时继续
+	sess, _ := session.Get(sessionName, c)
+
 	username := c.FormValue("username")
 	password := c.FormValue("password")
+
+	//调试查看收到了什么
+	if username == "" {
+        log.Printf("[DEBUG] 警告：收到的用户名为空，请检查前端 Content-Type")
+    }
+
+
 
 	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
 		return c.HTMLBlob(http.StatusBadRequest, internalErrorEmpty)
