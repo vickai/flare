@@ -171,6 +171,13 @@
   margin-top: 20px;
 }
 
+.setting-group-container h2 span {
+  background-color: #031e2a;
+  padding-right: 8px;
+  z-index: 9;
+  position: relative;
+}
+
 .setting-group-container h2:first-of-type {
   margin-top: 0;
 }
@@ -183,8 +190,8 @@
   height: 1px;
   border-top-style: dotted;
   position: absolute;
-  width: calc(100% - 100px);
-  left: 100px;
+  width: 100%;
+  left: 0;
   top: 50%;
   border-top-color: #033b3b;
 }
@@ -244,6 +251,22 @@
   color: #31d49a;
 }
 
-#page-settings .form-about hr {
-  margin: 10px 0;
+#page-settings hr {
+  border: none;
+  border-top: 1px solid #31d49a;
+  position: relative;
+  margin: 60px 0 40px;
+  overflow: visible;
+}
+
+#page-settings hr::after {
+  content: "鸣谢";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #031e2a;
+  padding: 0 8px;
+  font-size: 20px;
+  color: #31d49a;
 }
