@@ -1,3 +1,38 @@
+#vickai-nav {
+    position: absolute;
+    top: 0;
+    left: 250px;
+    right: 0;
+    height: 32px;
+    width: calc(100% - 500px);
+    text-align: center;
+}
+#vickai-nav h3 {
+    background: #0a2449;
+    border: 1px solid #0f315f;
+    border-top: none;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 0 0 8px 8px;
+    margin: 0 5px;
+    transition: all .75s;
+}
+#vickai-nav h3:hover{
+  background: #0b1435;
+  border-color: #3984f6;
+}
+#vickai-nav h3 a span {
+  background: linear-gradient(135deg, #c79eff, #00e0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    font-size: 16px;
+    font-weight: 620;
+
+}
+
 .toolbar-container {
   width: 38px;
   position: fixed;
@@ -97,8 +132,20 @@
 @media (max-width: 1200px) {
   #page-home.pageview .container {
     width: 100%;
-    padding: 15px;
+    padding: 50px 15px 15px;
     margin: 0 auto;
+  }
+#vickai-nav {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    right: 0;
+    height: 32px;
+    width: calc(100% - 30px);
+    overflow: hidden;
+}
+  .toolbar-container {
+    display: none;
   }
 }
 
@@ -106,10 +153,18 @@
 @media (max-width: 768px) {
   #page-home.pageview .container {
     width: 100%;
-    padding: 15px;
+    padding: 50px 15px 15px;
     margin: 0 auto;
   }
-
+#vickai-nav {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    right: 0;
+    height: 32px;
+    width: calc(100% - 30px);
+    overflow: hidden;
+}
   #search-container #search {
     font-size: 16px;
   }
@@ -210,6 +265,11 @@
   .toolbar-container {
     display: none;
   }
+
+  .toolbar-container {
+    display: none;
+  }
+
 }
 
 
@@ -218,8 +278,20 @@
 @media (max-width: 375px) {
   #page-home.pageview .container {
     width: 100%;
-    padding: 10px;
+    padding: 50px 10px 10px;
     margin: 0 auto;
+  }
+#vickai-nav {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    right: 0;
+    height: 32px;
+    width: calc(100% - 20px);
+    overflow: hidden;
+}
+  .toolbar-container {
+    display: none;
   }
 }
 
@@ -228,4 +300,12 @@
     width: 90%;
     padding: 50px 250px 20px;
   }
+#vickai-nav {
+    position: absolute;
+    top: 0;
+    left: 250px;
+    right: 0;
+    height: 32px;
+    width: calc(100% - 500px);
+}
 }

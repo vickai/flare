@@ -18,7 +18,7 @@
 }
 
 #container-bookmakrs h2 a:before {
-  content: "🧩";
+  content: "📚";
   box-sizing: border-box;
   margin-right: 5px;
 }
@@ -51,55 +51,41 @@
 #container-bookmakrs .bookmark-group-container h3.bookmark-group-title {
   font-size: 16px;
   font-weight: 620;
-  color: #c5b6fd;
+  color: #3a85f7;
   margin: 0;
+  border: none;
+  border-top-color: #3a85f7;
   border-top-style: solid;
   border-top-width: 2px;
 }
 
-#container-bookmakrs .bookmark-group-container h3.bookmark-group-title:before {
-  content: "🛠️";
-  box-sizing: border-box;
-  margin-right: 5px;
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(2) h3.bookmark-group-title {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+2) h3.bookmark-group-title {
   border-top-color: #3a85f7;
   color: #3a85f7;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(2) h3.bookmark-group-title:before {
-  content: "🚀";
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(3) h3.bookmark-group-title {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+3) h3.bookmark-group-title {
   border-top-color: #01b7d5;
   color: #01b7d5;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(3) h3.bookmark-group-title:before {
-  content: "📚";
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(4) h3.bookmark-group-title {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+4) h3.bookmark-group-title {
   border-top-color: #f6a809;
   color: #f6a809;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(4) h3.bookmark-group-title:before {
-  content: "🏗️";
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(5) h3.bookmark-group-title {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+5) h3.bookmark-group-title {
   border-top-color: #08bb83;
   color: #08bb83;
 }
-
-#container-bookmakrs .bookmark-group-container:nth-child(5) h3.bookmark-group-title:before {
-  content: "🛠️";
+#container-bookmakrs .bookmark-group-container:nth-child(6n+6) h3.bookmark-group-title {
+  border-top-color: #9b59b6;
+  color: #9b59b6;
 }
-
-
+#container-bookmakrs .bookmark-group-container:nth-child(6n+1) h3.bookmark-group-title {
+  border-top-color: #e74c3c;
+  color: #e74c3c;
+}
 
 #container-bookmakrs .bookmark-group-container .bookmark-list {
   list-style: none;
@@ -154,11 +140,7 @@
 
 #container-bookmakrs .bookmark-group-container .bookmark svg {
   width: 24px;
-}
-
-#container-bookmakrs .bookmark-group-container .bookmark-list a.bookmark svg path {
-  fill: rgb(251, 252, 254) !important;
-  transition: all .75s;
+  height: 24px;
 }
 
 #container-bookmakrs .bookmark-group-container .bookmark-list a.bookmark span {
@@ -176,50 +158,48 @@
   padding: 5px 5px 5px 10px;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(2) .bookmark-list a.bookmark:hover {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+2) .bookmark-list a.bookmark:hover {
   border-color: rgba(56, 132, 246, 0.5);
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(2) .bookmark-list a.bookmark:hover svg path {
-  fill: #3a85f7 !important;
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(2) .bookmark-list a.bookmark:hover span {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+2) .bookmark-list a.bookmark:hover span {
   color: #3a85f7;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(3) .bookmark-list a.bookmark:hover {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+3) .bookmark-list a.bookmark:hover {
   border-color: rgba(1, 183, 213, 0.5);
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(3) .bookmark-list a.bookmark:hover svg path {
-  fill: #01b7d5 !important;
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(3) .bookmark-list a.bookmark:hover span {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+3) .bookmark-list a.bookmark:hover span {
   color: #01b7d5;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(4) .bookmark-list a.bookmark:hover {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+4) .bookmark-list a.bookmark:hover {
   border-color: rgba(245, 167, 8, 0.5);
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(4) .bookmark-list a.bookmark:hover svg path {
-  fill: #f6a809 !important;
-}
-
-#container-bookmakrs .bookmark-group-container:nth-child(4) .bookmark-list a.bookmark:hover span {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+4) .bookmark-list a.bookmark:hover span {
   color: #f6a809;
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(5) .bookmark-list a.bookmark:hover {
+#container-bookmakrs .bookmark-group-container:nth-child(6n+5) .bookmark-list a.bookmark:hover {
   border-color: rgba(4, 186, 130, 0.5);
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(5) .bookmark-list a.bookmark:hover svg path {
-  fill: #08bb83 !important;
+#container-bookmakrs .bookmark-group-container:nth-child(6n+5) .bookmark-list a.bookmark:hover span {
+  color: #08bb83;
+}
+#container-bookmakrs .bookmark-group-container:nth-child(6n+6) .bookmark-list a.bookmark:hover {
+  border-color: rgba(156, 90, 183, 0.5);
 }
 
-#container-bookmakrs .bookmark-group-container:nth-child(5) .bookmark-list a.bookmark:hover span {
-  color: #08bb83;
+#container-bookmakrs .bookmark-group-container:nth-child(6n+6) .bookmark-list a.bookmark:hover span {
+  color: #9b59b6;
+}
+#container-bookmakrs .bookmark-group-container:nth-child(6n+1) .bookmark-list a.bookmark:hover {
+  border-color: rgba(230, 75, 59, 0.5);
+}
+
+#container-bookmakrs .bookmark-group-container:nth-child(6n+1) .bookmark-list a.bookmark:hover span {
+  color: #e74c3c;
 }

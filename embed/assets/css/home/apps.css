@@ -18,7 +18,7 @@
 }
 
 #container-apps h2 a:before {
-  content: "⚙️";
+  content: "🏗️";
   box-sizing: border-box;
   margin-right: 5px;
 }
@@ -71,11 +71,6 @@
   color: #f1f5f9;
 }
 
-#container-apps .apps-container .app-icon svg path {
-  fill: #f1f5f9 !important;
-  transition: all .75s;
-}
-
 /* 非inline模式 */
 #container-apps .apps-container .app-icon img {
   display: block;
@@ -114,10 +109,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#container-apps .apps-container .app-item:hover .app-icon svg path {
-  fill: #60a6fa !important;
 }
 
 #container-apps .apps-container .app-item:hover .app-title {

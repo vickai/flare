@@ -69,6 +69,7 @@ h2 a {
   padding: 25px 250px 50px;
   width: 90%;
   margin: 0 auto;
+  position: relative;
 }
 
 .pull-left {
