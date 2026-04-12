@@ -21,6 +21,7 @@ RUN go run build/build.go
 # 2. 编译 Go 二进制文件
 # CGO_ENABLED=0: 静态编译，确保二进制文件在 alpine 镜像中不依赖宿主机 C 库，彻底解决“file not found”报错
 # ldflags: 注入版本、Commit、构建日期等元数据
+RUN echo "1.0.0" > RELEASE_VERSION && echo "latest" > RELEASE_COMMIT
 RUN export VERSION=$(cat RELEASE_VERSION) && \
     export COMMIT=$(cat RELEASE_COMMIT) && \
     export BUILD_DATE=`date +%FT%T%z` && \
@@ -45,7 +46,7 @@ FROM alpine:3.18
 ENV TZ=Asia/Shanghai
 
 # 安装时区数据并清理缓存
-RUN apk add --no-cache tzdata ca-certificates && \
+RUN apk add --no-cache tzdata ca-certificates mailcap && \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     rm -rf /var/cache/apk/*
