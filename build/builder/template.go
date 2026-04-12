@@ -29,7 +29,10 @@ func minifyFilesByPathAndType(filePath string, fileFilter string, mimeType strin
 	m.AddFunc("text/html", MinifyHTML.Minify)
 	m.Add("text/html", &MinifyHTML.Minifier{
 		KeepDocumentTags: true,
-		KeepQuotes:       false,
+		KeepQuotes:       true,
+		KeepEndTags:      true,
+		KeepWhitespace:      true,
+		KeepDefaultAttrVals: true,
 	})
 
 	m.AddFunc("image/svg+xml", MinifySVG.Minify)
