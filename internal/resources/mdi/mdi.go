@@ -74,7 +74,7 @@ func GetIconByName(name string) string {
 	content := ""
 	if define.AppFlags.EnableMinimumRequest {
 		if !_CACHE_MDI_ICON_EXIST[name] {
-			content = `<svg viewBox="0 0 24 24"><path d="` + icon + `" style="fill: var(--color-primary);"></path></svg>`
+			content = `<svg viewBox="0 0 24 24"><path d="` + icon + `" style="fill: #f1f5f9;"></path></svg>`
 			_CACHE_MDI_ICON_DATA[name] = content
 			_CACHE_MDI_ICON_EXIST[name] = true
 		}
@@ -82,7 +82,7 @@ func GetIconByName(name string) string {
 	}
 	svgFile := filepath.ToSlash(filepath.Join(_ASSETS_BASE_DIR, (define.ThemeCurrent + "-" + name + ".svg")))
 	if !_CACHE_MDI_ICON_EXIST[define.ThemeCurrent+"-"+name] {
-		content = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="` + icon + `" style="fill:` + define.ThemePrimaryColor + `;"></path></svg>`
+		content = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="` + icon + `" style="fill:#f1f5f9;"></path></svg>`
 		err := MemFs.WriteFile(svgFile, []byte(content), 0755)
 		if err != nil {
 			log.Println("缓存内置图标出错:", err)
