@@ -65,7 +65,14 @@ go run main.go
 
 go run main.go --debug
 
-#执行编译脚本
+# 执行编译脚本
 go run build/build.go
+
+# Windows PowerShell 调试登录认证
+$env:FLARE_USER="admin"
+$env:FLARE_PASS="admin"
+$env:FLARE_DISABLE_LOGIN="0"
+$env:FLARE_COOKIE_SECRET="vickai1234567890vickai1234567890"
+go run main.go --debug
 
 ```
