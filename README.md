@@ -17,12 +17,14 @@
 #
 # ---🚀 目录结构
 # /data/docker-compose/flare-vickai
-#  ├── docker-compose.yml          # 本配置文件
-#  └── app/                        # 存储书签数据及项目配置文件
-#      ├── icons
-#      ├── apps.yml
-#      ├── bookmarks.yml
-#      └── config.yml
+#  ├── docker-compose.yml             # 本配置文件
+#  └── app/                           # 存储书签数据及项目配置文件
+#      ├── icons                      # 自定义 svg 图标目录，例如 ChatGPT.svg
+#      ├── vickai-nav.yml             # 顶部导航
+#      ├── vickai-bookmarks.html      # 管理界面导航（私有）
+#      ├── apps.yml                   # 应用导航配置文件
+#      ├── bookmarks.yml              # 书签导航配置文件
+#      └── config.yml                 # 项目配置文件
 #
 # ------------------------------------------------------------------------------
 # ---🧠 注意事项
