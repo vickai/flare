@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/labstack/echo/v5"
@@ -9,6 +10,7 @@ import (
 	"github.com/soulteary/flare/config/define"
 	"github.com/soulteary/flare/internal/auth"
 	"github.com/soulteary/flare/internal/pool"
+	"github.com/soulteary/flare/internal/pages/home" // 自定义 vickai.yml 并生成 HTML
 )
 
 func RegisterRouting(e *echo.Echo) {
@@ -42,6 +44,11 @@ func pageTheme(c *echo.Context) error {
 	}
 	m := pool.GetTemplateMap()
 	defer pool.PutTemplateMap(m)
+
+	// --- 🛠️ 关键一步：调用拼装函数并存入 Map ---
+	m["VickaiBookmarks"] = home.GenerateVickaiBookmark()
+    // ----------------------------------------
+
 	m["Locale"] = locale
 	m["DebugMode"] = define.AppFlags.DebugMode
 	m["PageInlineStyle"] = define.GetPageInlineStyle()
@@ -51,5 +58,6 @@ func pageTheme(c *echo.Context) error {
 	m["SettingPages"] = define.SettingPages
 	m["Themes"] = themes
 	m["OptionTitle"] = options.Title
+	m["OptionFooter"] = template.HTML(options.Footer)
 	return c.Render(http.StatusOK, "settings.html", m)
 }
