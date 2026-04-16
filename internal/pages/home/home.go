@@ -1,7 +1,6 @@
 package home
 
 import (
-	"os" // 新增 os 包用于读取本地文件
 	"html/template"
 	"log"
 	"net/http"
@@ -120,6 +119,9 @@ func renderHelp(c *echo.Context) error {
 	setCSPHeader(c)
 	m := pool.GetTemplateMap()
 	defer pool.PutTemplateMap(m)
+	// --- 🛠️ 插入自定义HTML导航，调用外部函数自动寻址 ---
+    m["VickaiNav"] = GenerateVickaiNav()
+    // ----------------------------------------
 	m["Locale"] = locale
 	m["PageName"] = "Home"
 	m["PageAppearance"] = define.GetAppBodyStyle()
@@ -234,6 +236,9 @@ func pageBookmark(c *echo.Context) error {
 	fn.ParseRequestURL(c.Request())
 	m := pool.GetTemplateMap()
 	defer pool.PutTemplateMap(m)
+	// --- 🛠️ 插入自定义HTML导航，调用外部函数自动寻址 ---
+    m["VickaiNav"] = GenerateVickaiNav()
+    // ----------------------------------------
 	m["Locale"] = locale
 	m["DebugMode"] = define.AppFlags.DebugMode
 	m["PageInlineStyle"] = define.GetPageInlineStyle()
@@ -266,6 +271,9 @@ func pageApplication(c *echo.Context) error {
 	fn.ParseRequestURL(c.Request())
 	m := pool.GetTemplateMap()
 	defer pool.PutTemplateMap(m)
+	// --- 🛠️ 插入自定义HTML导航，调用外部函数自动寻址 ---
+    m["VickaiNav"] = GenerateVickaiNav()
+    // ----------------------------------------
 	m["Locale"] = locale
 	m["DebugMode"] = define.AppFlags.DebugMode
 	m["PageInlineStyle"] = define.GetPageInlineStyle()
@@ -283,23 +291,6 @@ func pageApplication(c *echo.Context) error {
 	m["OptionHideSettingsButton"] = options.HideSettingsButton
 	m["OptionHideHelpButton"] = options.HideHelpButton
 	return c.Render(http.StatusOK, "home.html", m)
-}
-
-
-// getVickaiNavImportContent 尝试从多个预设路径读取自定义 HTML 导航内容
-func getVickaiNavImportContent() template.HTML {
-	// 优先级：1. Docker 挂载路径 -> 2. 本地调试相对路径
-	paths := []string{"/app/vickai-nav.html", "./vickai-nav.html"}
-
-	for _, path := range paths {
-		content, err := os.ReadFile(path)
-		if err == nil {
-			// 只要有一个路径读到了，就直接返回
-			return template.HTML(string(content))
-		}
-	}
-	// 如果所有路径都读不到，返回空字符串
-	return template.HTML("")
 }
 
 
@@ -339,7 +330,7 @@ func render(c *echo.Context, filter string) error {
 	defer pool.PutTemplateMap(m)
 
 	// --- 🛠️ 插入自定义HTML导航，调用外部函数自动寻址 ---
-    m["VickaiNav"] = getVickaiNavImportContent()
+    m["VickaiNav"] = GenerateVickaiNav()
     // ----------------------------------------
 
 
