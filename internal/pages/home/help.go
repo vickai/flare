@@ -14,19 +14,19 @@ func GenerateHelpTemplate() template.HTML {
 		{
 			Name: "程序首页",
 			URL:  define.RegularPages.Home.Path,
-			Icon: "Help-Favicon.svg",
+			Icon: "0-Help-Favicon.svg",
 			Desc: "HomeLab 导航",
 		},
 		{
 			Name: "帮助页面",
 			URL:  define.RegularPages.Help.Path,
-			Icon: "Help-Help.svg",
+			Icon: "0-Help-Help.svg",
 			Desc: "当前所在页面",
 		},
 		{
 			Name: "程序设置",
 			URL:  define.RegularPages.Settings.Path,
-			Icon: "Help-Setting.svg",
+			Icon: "0-Help-Setting.svg",
 			Desc: "设置 HomeLab 导航参数",
 		},
 	}...)
@@ -35,7 +35,7 @@ func GenerateHelpTemplate() template.HTML {
 		apps = append(apps, model.Bookmark{
 			Name: "向导页面",
 			URL:  define.RegularPages.Guide.Path,
-			Icon: "Help-Guide.svg",
+			Icon: "0-Help-Guide.svg",
 			Desc: "页面各模块功能向导",
 		})
 	}
@@ -44,7 +44,7 @@ func GenerateHelpTemplate() template.HTML {
 		apps = append(apps, model.Bookmark{
 			Name: "内容编辑",
 			URL:  define.RegularPages.Editor.Path,
-			Icon: "Help-Editor.svg",
+			Icon: "0-Help-Editor.svg",
 			Desc: "编辑导航应用、书签",
 		})
 	}
@@ -53,43 +53,43 @@ func GenerateHelpTemplate() template.HTML {
 		{
 			Name: "图标挑选",
 			URL:  define.RegularPages.Icons.Path,
-			Icon: "Help-Mdi.svg",
+			Icon: "0-Help-Mdi.svg",
 			Desc: "挑选 Material Design Icons",
 		},
 		{
 			Name: "服务导航",
 			URL:  define.SettingPages.Theme.Path,
-			Icon: "Help-Theme.svg",
+			Icon: "0-Help-Theme.svg",
 			Desc: "HomeLab 服务架构导航",
 		},
 		{
 			Name: "天气设置",
 			URL:  define.SettingPages.Weather.Path,
-			Icon: "Help-Weather.svg",
+			Icon: "0-Help-Weather.svg",
 			Desc: "设定天气显示",
 		},
 		{
 			Name: "搜索设置",
 			URL:  define.SettingPages.Search.Path,
-			Icon: "Help-Search.svg",
+			Icon: "0-Help-Search.svg",
 			Desc: "设置书签搜索功能",
 		},
 		{
 			Name: "界面设置",
 			URL:  define.SettingPages.Appearance.Path,
-			Icon: "Help-Appearance.svg",
+			Icon: "0-Help-Appearance.svg",
 			Desc: "界面功能显示设置",
 		},
 		{
 			Name: "程序版本",
 			URL:  define.SettingPages.Others.Path,
-			Icon: "Help-Others.svg",
+			Icon: "0-Help-Others.svg",
 			Desc: "程序介绍及程序版本信息",
 		},
 		{
 			Name: "问题反馈",
 			URL:  "https://github.com/vickai/flare/issues",
-			Icon: "Help-Issues.svg",
+			Icon: "0-Help-Issues.svg",
 			Desc: "GitHub Issues",
 		},
 	}...)
