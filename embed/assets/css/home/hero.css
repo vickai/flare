@@ -24,6 +24,8 @@
 }
 
 #plugin-greetings {
+  align-items: center;
+  display: flex;
   font-size: 34px;
   font-weight: 620;
   text-align: left;
@@ -38,6 +40,10 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+#plugin-greetings svg {
+  margin-right: 10px;
 }
 
 #page-home #hero-container #plugin-weather .pull-left {
@@ -85,7 +91,12 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-  display: inline-block;
+  display: flex;
+  align-items: center;
+}
+
+.sub-page-header h1 svg {
+  margin-right: 10px;
 }
 
 .sub-page-header p {

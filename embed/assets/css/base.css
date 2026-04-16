@@ -51,23 +51,12 @@ h2 a {
 }
 
 .pageview {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: block;
-}
 
-#page-home {
-  display: block;
-
-  overflow: auto;
 }
 
 .container {
-  padding: 25px 250px 50px;
-  width: 90%;
+  padding: 50px 25px 15px;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
 }
@@ -106,18 +95,17 @@ h2 a {
   padding: 20px;
 }
 
-
-
-
-
+#sub-page .plugin-container h2 {
+  display: none;
+}
 .plugin-container h2 {
-  font-weight: 900;
+  font-weight: 400;
   font-size: 20px;
   margin-bottom: 16px;
   position: relative;
 }
 
-.plugin-container h2:after {
+.plugin-container h2::after {
   content: " ";
   box-sizing: border-box;
   border-top-width: 1px;
@@ -133,25 +121,31 @@ h2 a {
   font-size: 22px;
   font-weight: 400;
   color: #f1f5f9;
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  padding-right: 8px;
   z-index: 9;
+  margin: 0;
+  padding-right: 5px;
 }
 
 #page-home .footer-container {
   text-align: center;
-  opacity: 0.6;
+  opacity: 0.5;
+  padding-top: 20px;
+  border-top: 1px solid #1b1d51;
+  transition: all .75s;
 }
 
 #page-settings .footer-container {
   text-align: center;
-  opacity: 0.6;
+  opacity: 0.5;
+  padding-top: 20px;
+  border-top: 1px solid #033b3b;
+  transition: all .75s;
 }
 
+#page-settings .footer-container:hover,
 #page-home .footer-container:hover {
   opacity: 1;
-}
-
-#page-home.pageview .container {
-  min-width: 360px;
 }
