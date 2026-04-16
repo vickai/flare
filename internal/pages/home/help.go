@@ -14,20 +14,20 @@ func GenerateHelpTemplate() template.HTML {
 		{
 			Name: "程序首页",
 			URL:  define.RegularPages.Home.Path,
-			Icon: "homeCircle",
-			Desc: "",
+			Icon: "Help-Favicon.svg",
+			Desc: "HomeLab 导航",
 		},
 		{
 			Name: "帮助页面",
 			URL:  define.RegularPages.Help.Path,
-			Icon: "helpCircle",
-			Desc: "",
+			Icon: "Help-Help.svg",
+			Desc: "当前所在页面",
 		},
 		{
 			Name: "程序设置",
 			URL:  define.RegularPages.Settings.Path,
-			Icon: "fireCircle",
-			Desc: "",
+			Icon: "Help-Setting.svg",
+			Desc: "设置 HomeLab 导航参数",
 		},
 	}...)
 
@@ -35,8 +35,8 @@ func GenerateHelpTemplate() template.HTML {
 		apps = append(apps, model.Bookmark{
 			Name: "向导页面",
 			URL:  define.RegularPages.Guide.Path,
-			Icon: "radioactiveCircleOutline",
-			Desc: "",
+			Icon: "Help-Guide.svg",
+			Desc: "页面各模块功能向导",
 		})
 	}
 
@@ -44,8 +44,8 @@ func GenerateHelpTemplate() template.HTML {
 		apps = append(apps, model.Bookmark{
 			Name: "内容编辑",
 			URL:  define.RegularPages.Editor.Path,
-			Icon: "pencilCircle",
-			Desc: "",
+			Icon: "Help-Editor.svg",
+			Desc: "编辑导航应用、书签",
 		})
 	}
 
@@ -53,49 +53,43 @@ func GenerateHelpTemplate() template.HTML {
 		{
 			Name: "图标挑选",
 			URL:  define.RegularPages.Icons.Path,
-			Icon: "heartCircle",
-			Desc: "",
+			Icon: "Help-Mdi.svg",
+			Desc: "挑选 Material Design Icons",
 		},
 		{
-			Name: "主题设置",
+			Name: "服务导航",
 			URL:  define.SettingPages.Theme.Path,
-			Icon: "starCircle",
-			Desc: "",
+			Icon: "Help-Theme.svg",
+			Desc: "HomeLab 服务架构导航",
 		},
-		// {
-		// 	Name: "主题预览",
-		// 	URL:  "/preview",
-		// 	Icon: "incognitoCircle",
-		// 	Desc: "",
-		// },
 		{
 			Name: "天气设置",
 			URL:  define.SettingPages.Weather.Path,
-			Icon: "leafCircle",
-			Desc: "",
+			Icon: "Help-Weather.svg",
+			Desc: "设定天气显示",
 		},
 		{
 			Name: "搜索设置",
 			URL:  define.SettingPages.Search.Path,
-			Icon: "lightningBoltCircle",
-			Desc: "",
+			Icon: "Help-Search.svg",
+			Desc: "设置书签搜索功能",
 		},
 		{
 			Name: "界面设置",
 			URL:  define.SettingPages.Appearance.Path,
-			Icon: "leafCircle",
-			Desc: "",
+			Icon: "Help-Appearance.svg",
+			Desc: "界面功能显示设置",
 		},
 		{
 			Name: "程序版本",
 			URL:  define.SettingPages.Others.Path,
-			Icon: "commaCircle",
-			Desc: "",
+			Icon: "Help-Others.svg",
+			Desc: "程序介绍及程序版本信息",
 		},
 		{
 			Name: "问题反馈",
-			URL:  "https://github.com/soulteary/docker-flare/issues",
-			Icon: "crownCircle",
+			URL:  "https://github.com/vickai/flare/issues",
+			Icon: "Help-Issues.svg",
 			Desc: "GitHub Issues",
 		},
 	}...)
