@@ -3,10 +3,14 @@ items:
   link: https://link.example.com
   icon: ChatGPT.svg
   desc: 链接描述文本
+  ip: 10.11.10.2
+  port: 3000
 - name: 示例链接
   link: https://link.example.com
   icon: Gemini.svg
   desc: 链接描述文本
+  ip: 10.11.10.2
+  port: 5000
 - name: 示例链接
   link: https://link.example.com
   icon: ChatGPT.svg
