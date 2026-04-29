@@ -1,0 +1,16 @@
+items:
+- name: DNS 服务
+  ip: 10.11.10.5
+  port: 53
+- name: DNS 服务
+  ip: 10.11.10.6
+  port: 80
+- name: DNS 服务
+  ip: 10.11.10.7
+  port: 80
+- name: DNS 服务
+  ip: 10.11.10.8
+  port: 80
+- name: DNS 服务
+  ip: 10.11.10.9
+  port: 80
