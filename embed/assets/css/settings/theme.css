@@ -47,11 +47,12 @@
 .vickai-item .vickai-icon {
   height: 70px;
   width: 70px;
+  padding: 5px;
 }
 
 .vickai-item .vickai-icon svg {
-  width: 98%;
-  height: 98%;
+  width: 60px;
+  height: 60px;
   color: #f1f5f9;
 }
 
@@ -77,6 +78,142 @@
   line-height: 1.5;
   opacity: 0.75;
 }
+.vickai-item.disabled {
+    cursor: not-allowed;
+}
+.vickai-item.disabled:active {
+    pointer-events: none;
+}
+
+.vickai-item.disabled:hover {
+  box-shadow: 0 4px 12px rgba(255, 77, 77, .25);
+}
+
+.vickai-item.disabled:hover::before {
+  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.vickai-item.disabled .vickai-icon,
+.vickai-item.disabled .vickai-text {
+  opacity: 0.3;
+}
+.vickai-item .vickai-dot {
+  display: block;
+  width: 8px;
+  position: absolute;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(49, 212, 154, 0.1);
+  right: 8px;
+  top: 8px;
+}
+.vickai-item .vickai-dot.status-online {
+  background: #00ff00;
+  box-shadow: 0 0 4px #00ff00;
+}
+.vickai-item .vickai-dot.status-offline {
+  background: #ff4d4d;
+  box-shadow: 0 0 4px #ff4d4d;
+}
+.vickai-item.disabled i {
+  font-size: 10px;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  color: #ff4d4d;
+  text-shadow: 0 0 3px #ff4d4d;
+}
+
+
+#vickai-services {
+  margin-bottom: 30px;
+}
+#vickai-services ul {
+  list-style: none;
+  display: block;
+}
+#vickai-services ul li {
+  position: relative;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(49, 212, 154, 0.1);
+  padding: 8px 5px;
+  cursor: default;
+  border-radius: 3px;
+  transition: all .2s;
+}
+#vickai-services ul li.online:hover {
+  box-shadow: 0 0 4px #00ff00;
+}
+
+#vickai-services ul li.offline:hover {
+  box-shadow: 0 0 4px #ff4d4d;
+}
+
+#vickai-services ul li:first-child {
+  border-bottom-width: 2px;
+}
+#vickai-services ul li span {
+  display: inline-block;
+  vertical-align: middle;
+  transition: all .2s;
+  cursor: default;
+}
+#vickai-services ul li.online:hover span {
+  color: #00ff00;
+  text-shadow:  0 0 4px #00ff00;
+}
+#vickai-services ul li.offline:hover span {
+  color: #ff4d4d;
+  text-shadow:  0 0 4px #ff4d4d;
+}
+#vickai-services ul li .vickai-dot-title,
+#vickai-services ul li .vickai-dot {
+  width: 50px;
+  text-align: center;
+}
+#vickai-services ul li .vickai-name-title,
+#vickai-services ul li .vickai-name {
+  width: calc(100% - 250px);
+  text-indent: 2em;
+}
+#vickai-services ul li .vickai-ip-title,
+#vickai-services ul li .vickai-ip {
+  width: 120px;
+}
+#vickai-services ul li .vickai-port-title,
+#vickai-services ul li .vickai-port {
+  width: 80px;
+  text-align: center;
+}
+
+#vickai-services ul li .vickai-dot i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(49, 212, 154, 0.1);
+  cursor: default;
+  margin: 0 auto;
+}
+#vickai-services ul li .vickai-dot.status-online i {
+  background: #00ff00;
+  box-shadow: 0 0 4px #00ff00;
+}
+#vickai-services ul li .vickai-dot.status-offline i {
+  background: #ff4d4d;
+  box-shadow: 0 0 4px #ff4d4d;
+}
+#vickai-services ul li .vickai-name {
+
+}
+#vickai-services ul li .vickai-ip {
+
+}
+#vickai-services ul li .vickai-port {
+
+}
+
 
 /* 响应式布局 */
 @media (max-width: 1200px) {
@@ -140,5 +277,78 @@
 #vickai-bookbarks .vickai-container:last-child {
     margin-bottom: 0;
   }
+
+
+#vickai-services ul li .vickai-dot-title {
+
+}
+#vickai-services ul li .vickai-dot {
+  text-align: center;
+  height: 48px;
+  line-height: 48px;
+  vertical-align: middle;
+}
+#vickai-services ul li .vickai-dot i {
+  display: inline-block;
+}
+#vickai-services ul li .vickai-name-title {
+  text-indent: inherit;
+  width: auto;
+  margin-right: 5px;
+}
+#vickai-services ul li .vickai-name {
+  text-indent: inherit;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 60px;
+  height: 24px;
+  line-height: 24px;
+  top: 8px;
+}
+#vickai-services ul li .vickai-ip-title {
+  width: auto;
+}
+#vickai-services ul li .vickai-ip-title::before {
+  content: " - ";
+}
+#vickai-services ul li .vickai-ip {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  padding: 0 60px;
+  height: 24px;
+  line-height: 24px;
+  width: 100%;
+}
+
+#vickai-services ul li .vickai-port-title {
+  text-align: center;
+  float: right;
+  width: 50px;
+}
+#vickai-services ul li .vickai-port {
+  width: 50px;
+  text-align: center;
+  float: right;
+  height: 48px;
+  line-height: 48px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 

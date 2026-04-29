@@ -17,12 +17,23 @@
   padding: 3px 8px;
   border-radius: 0 0 8px 8px;
   margin: 0 5px 15px;
+  position: relative;
   transition: all .2s;
 }
 
 #vickai-nav h3:hover {
   border-color: #3984f6;
   box-shadow: 0 4px 12px rgba(57, 132, 246, .25);
+}
+#vickai-nav h3.disabled:hover {
+  border-color: #0f315f;
+  box-shadow: 0 4px 12px rgba(255, 77, 77, .25);
+}
+#vickai-nav h3.disabled a {
+    cursor: not-allowed;
+}
+#vickai-nav h3.disabled a:active {
+    pointer-events: none;
 }
 
 #vickai-nav h3 a svg {
@@ -44,6 +55,27 @@
   font-weight: 620;
   display: inline;
   vertical-align: middle;
+}
+
+#vickai-nav h3 .vickai-dot {
+  display: block;
+  width: 6px;
+  position: absolute;
+  height: 6px;
+  border-radius: 50%;
+  background: #030e23;
+  margin-left: -3px;
+  bottom: -10px;
+  left: 50%;
+}
+#vickai-nav h3 .vickai-dot.status-online {
+  background: #00ff00;
+  box-shadow: 0 0 4px #00ff00;
+}
+
+#vickai-nav h3 .vickai-dot.status-offline {
+  background: #ff4d4d;
+  box-shadow: 0 0 4px #ff4d4d;
 }
 
 .toolbar-container {

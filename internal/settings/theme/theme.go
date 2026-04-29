@@ -47,6 +47,7 @@ func pageTheme(c *echo.Context) error {
 
 	// --- 🛠️ 关键一步：调用拼装函数并存入 Map ---
 	m["VickaiBookmarks"] = home.GenerateVickaiBookmark()
+	m["VickaiServices"] = home.GenerateVickaiService()
     // ----------------------------------------
 
 	m["Locale"] = locale
