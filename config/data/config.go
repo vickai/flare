@@ -13,9 +13,9 @@ func initAppConfig(filePath string) (result model.Application, err error) {
 
 	out := []byte(`
 # 应用标题
-Title: "flare"
+Title: "HomeLab 导航"
 # 应用页脚
-Footer: 由 <a href="https://github.com/soulteary/docker-flare">Flare</a> ❤️ 强力驱动
+Footer: 由 <a href="https://github.com/vickai/flare">Flare Vickai</a> 🚢 强力驱动
 # 在新窗口中打开应用
 OpenAppNewTab: true
 # 在新窗口中打开书签
@@ -23,7 +23,7 @@ OpenBookmarkNewTab: true
 # 展示顶部标题组件
 ShowTitle: true
 # 默认的首页问候语
-Greetings: 你好
+Greetings: HomeLab 导航
 # 展示搜索组件
 ShowSearchComponent: true
 # 禁用搜索框自动获取焦点
