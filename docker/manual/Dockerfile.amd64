@@ -21,7 +21,7 @@ RUN go run build/build.go
 # 2. 编译 Go 二进制文件
 # CGO_ENABLED=0: 静态编译，确保二进制文件在 alpine 镜像中不依赖宿主机 C 库，彻底解决“file not found”报错
 # ldflags: 注入版本、Commit、构建日期等元数据
-RUN echo "dev" > RELEASE_VERSION && echo "0.1.5" > RELEASE_COMMIT
+RUN echo "dev" > RELEASE_VERSION && echo "0.1.6" > RELEASE_COMMIT
 RUN export VERSION=$(cat RELEASE_VERSION) && \
     export COMMIT=$(cat RELEASE_COMMIT) && \
     export BUILD_DATE=`date +%FT%T%z` && \
