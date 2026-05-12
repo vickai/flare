@@ -27,6 +27,7 @@ import (
 	"github.com/soulteary/flare/internal/settings/search"
 	"github.com/soulteary/flare/internal/settings/theme"
 	"github.com/soulteary/flare/internal/settings/weather"
+	"github.com/soulteary/flare/internal/settings/service"
 )
 
 // NewRouter builds the Echo app and returns an http.Handler for the server.
@@ -57,6 +58,7 @@ func NewRouter(appFlags *model.Flags) (http.Handler, error) {
 	search.RegisterRouting(e)
 	appearance.RegisterRouting(e)
 	others.RegisterRouting(e)
+	service.RegisterRouting(e)
 	if err := mdi.Init(); err != nil {
 		return nil, fmt.Errorf("初始化 MDI 资源: %w", err)
 	}
