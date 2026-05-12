@@ -413,112 +413,109 @@ func GenerateVickaiNav() template.HTML {
 	return template.HTML(b.String())
 }
 
-// GenerateVickaiService 处理外部 vickai-services.yml 并生成 HTML
 func GenerateVickaiService() template.HTML {
-	// 1. 自动寻址（兼容 Docker 和本地）
+	// 1. 自动寻址与读取 (保持原有逻辑)
 	paths := []string{"/app/vickai-services.yml", "./vickai-services.yml"}
 	var buf []byte
 	var err error
 	for _, p := range paths {
 		buf, err = os.ReadFile(p)
-		if err == nil {
-			break
-		}
+		if err == nil { break }
 	}
-	if err != nil {
-		return template.HTML("") // 读不到文件则不显示
-	}
+	if err != nil { return template.HTML("") }
 
-	// 2. 解析 YAML (结构必须带 items 层级)
-	// items:
-	// - name: 示例服务
-	//   ip:   探测地址
-	//   prot：探测端口
-	var appsData struct {
-		// 解析 YAML (使用 VickaiBookmark 结构 /config/model/bookmark.go)
-		Items []model.VickaiService `yaml:"items"`
+	// 2. 解析支持分类的 YAML 结构
+	type VickaiServiceGroup struct {
+		Category string                `yaml:"category"`
+		Items    []model.VickaiService `yaml:"items"`
 	}
-
-	if err := yaml.Unmarshal(buf, &appsData); err != nil {
+	var data struct {
+		Groups []VickaiServiceGroup `yaml:"groups"`
+	}
+	if err := yaml.Unmarshal(buf, &data); err != nil {
 		return template.HTML("vickai-services.yml 格式解析错误")
 	}
 
-
-	// 2.1. 并发探测状态
+	// 2.1. 并发探测状态 (逻辑保持不变)
 	var wg sync.WaitGroup
 	statusMap := make(map[string]bool)
 	var mu sync.Mutex
-
-	for _, app := range appsData.Items {
-
-		if app.IP != "" {
-			wg.Add(1)
-			// 建议将端口逻辑拉平：YAML没写是0，函数内部转80
-			go func(targetIP string, targetPort int) {
-				defer wg.Done()
-
-				// 执行探测
-				alive := isVickaiAlive(targetIP, targetPort)
-
-				// 构造唯一的 Key (确保写入和读取时完全一致)
-				key := targetIP + ":" + strconv.Itoa(targetPort)
-
-				mu.Lock()
-				statusMap[key] = alive
-				mu.Unlock()
-			}(app.IP, app.Port)
+	for _, group := range data.Groups {
+		for _, app := range group.Items {
+			if app.IP != "" {
+				wg.Add(1)
+				go func(targetIP string, targetPort int) {
+					defer wg.Done()
+					alive := isVickaiAlive(targetIP, targetPort)
+					key := targetIP + ":" + strconv.Itoa(targetPort)
+					mu.Lock()
+					statusMap[key] = alive
+					mu.Unlock()
+				}(app.IP, app.Port)
+			}
 		}
 	}
 	wg.Wait()
 
-
-	// 3. 获取系统配置并准备 Builder
-	//options, _ := data.GetAllSettingsOptions()
+	// 3. 准备 Builder
 	b := builderPool.Get().(*strings.Builder)
 	b.Reset()
 	defer builderPool.Put(b)
 
-	// 4. 【核心拼装】
-	b.WriteString(`<ul>`)
-	b.WriteString(`<li class="clearfix">`)
-	b.WriteString(`<span class="vickai-dot-title">状态</span>`)
-	b.WriteString(`<span class="vickai-name-title">名称</span>`)
-	b.WriteString(`<span class="vickai-ip-title">地址</span>`)
-	b.WriteString(`<span class="vickai-port-title">端口</span>`)
-	b.WriteString(`</li>`)
-	for _, app := range appsData.Items {
-		// 确定状态灯类名
-		statusClass := ""
-		statusClassLi :=  ` class="clearfix"`
-		if app.IP != "" {
-			// 读取时必须使用和上面写入时完全一样的 Key 构造逻辑
-			checkKey := app.IP + ":" + strconv.Itoa(app.Port)
-
-			mu.Lock() // 虽然 Wait 结束了，但 map 读取建议保持规范
-			isAlive := statusMap[checkKey]
-			mu.Unlock()
-
-			if isAlive {
-				statusClass = "status-online"
-				statusClassLi = ` class="online clearfix"`
-			} else {
-				statusClass = "status-offline"
-				statusClassLi = ` class="offline clearfix"`
-			}
-		}
-
-		b.WriteString(`<li` + statusClassLi + `>`)
-		// 注入状态灯
-		if statusClass != "" {
-			b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
-		} else {
-			b.WriteString(`<span class="vickai-dot"></span>`)
-		}
-		b.WriteString(`<span class="vickai-name"> ` + app.Name + `</span>`)
-		b.WriteString(`<span class="vickai-ip"> ` + app.IP + `</span>`)
-		b.WriteString(`<span class="vickai-port"> ` + strconv.Itoa(app.Port) + `</span>`)
-		b.WriteString(`</li>`)
+	// --- 4. 第一阶段：生成顶部导航栏 ---
+	b.WriteString(`<div class="vickai-service-nav">`)
+	for i, group := range data.Groups {
+		// 使用索引 i 生成唯一 ID
+		categoryID := "cat-" + strconv.Itoa(i)
+		b.WriteString(`<a href="#` + categoryID + `">` + group.Category + `</a>`)
 	}
-	b.WriteString(`</ul>`)
+	b.WriteString(`</div>`)
+
+	// --- 5. 第二阶段：生成详细列表内容 ---
+	for i, group := range data.Groups {
+		categoryID := "cat-" + strconv.Itoa(i)
+
+		b.WriteString(`<div class="vickai-service-group" id="` + categoryID + `">`)
+		b.WriteString(`<h3 class="vickai-category-title"><span>` + group.Category + `</span></h3>`)
+
+		b.WriteString(`<ul>`)
+		// 写入表头
+		b.WriteString(`<li class="vickai-table-header clearfix">`)
+		b.WriteString(`<span class="vickai-dot-title">状态</span>`)
+		b.WriteString(`<span class="vickai-name-title">名称</span>`)
+		b.WriteString(`<span class="vickai-ip-title">地址</span>`)
+		b.WriteString(`<span class="vickai-port-title">端口</span>`)
+		b.WriteString(`</li>`)
+
+		for _, app := range group.Items {
+			statusClass := ""
+			statusClassLi := ` class="clearfix"`
+			if app.IP != "" {
+				checkKey := app.IP + ":" + strconv.Itoa(app.Port)
+				mu.Lock()
+				isAlive := statusMap[checkKey]
+				mu.Unlock()
+
+				if isAlive {
+					statusClass = "status-online"; statusClassLi = ` class="online clearfix"`
+				} else {
+					statusClass = "status-offline"; statusClassLi = ` class="offline clearfix"`
+				}
+			}
+
+			b.WriteString(`<li` + statusClassLi + `>`)
+			if statusClass != "" {
+				b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
+			} else {
+				b.WriteString(`<span class="vickai-dot"></span>`)
+			}
+			b.WriteString(`<span class="vickai-name">` + app.Name + `</span>`)
+			b.WriteString(`<span class="vickai-ip">` + app.IP + `</span>`)
+			b.WriteString(`<span class="vickai-port">` + strconv.Itoa(app.Port) + `</span>`)
+			b.WriteString(`</li>`)
+		}
+		b.WriteString(`</ul></div>`)
+	}
+
 	return template.HTML(b.String())
 }
