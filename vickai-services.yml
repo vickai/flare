@@ -1,16 +1,38 @@
-items:
-- name: DNS 服务
-  ip: 10.11.10.5
-  port: 53
-- name: DNS 服务
-  ip: 10.11.10.6
-  port: 80
-- name: DNS 服务
-  ip: 10.11.10.7
-  port: 80
-- name: DNS 服务
-  ip: 10.11.10.8
-  port: 80
-- name: DNS 服务
-  ip: 10.11.10.9
-  port: 80
+groups:
+  - category: "郭井"
+    items:
+      - name: YXOpenWrt
+        ip: 10.11.10.3
+        port: 22
+
+      - name: AdGuardHome
+        ip: 10.11.10.3
+        port: 53
+
+  - category: "昆明"
+    items:
+      - name: YXOpenWrt - Tailscale Local API
+        ip: 100.64.0.6
+        port: 61927
+
+      - name: YXOpenWrt - OpenClash HTTP(S) 代理端口
+        ip: 10.11.10.3
+        port: 7890
+      - name: YXOpenWrt - OpenClash SOCKS5 代理端口
+        ip: 10.11.10.3
+        port: 7891
+      - name: YXOpenWrt - OpenClash 流量转发端口
+        ip: 10.11.10.3
+        port: 7892
+      - name: YXOpenWrt - OpenClash HTTP(S)&SOCKS5 混合代理端口
+        ip: 10.11.10.3
+        port: 7893
+      - name: YXOpenWrt - OpenClash DNS 监听端口
+        ip: 10.11.10.3
+        port: 7874
+      - name: YXOpenWrt - OpenClash TProxy 端口
+        ip: 10.11.10.3
+        port: 7895
+      - name: YXOpenWrt - OpenClash UI
+        ip: 10.11.10.3
+        port: 9090
