@@ -1,37 +1,56 @@
 items:
-- name: 示例链接
-  link: https://link.example.com
-  icon: ChatGPT.svg
-  desc: 链接描述文本
+- name: YXOpenWRT
+  link: http://10.11.10.2
+  icon: 1-Nav-OpenWRT.svg
+  desc: 郭井旁路由
   ip: 10.11.10.2
-  port: 3000
-- name: 示例链接
-  link: https://link.example.com
-  icon: Gemini.svg
-  desc: 链接描述文本
+  port: 80
+
+- name: WOL
+  link: https://wol.yx.vickai.com
+  icon: 1-Nav-Wol.svg
+  desc: 网络唤醒玉溪设备
+  ip: 10.11.10.5
+  port: 53
+
+- name: AdGuardHome
+  link: https://dns1.yx.vickai.com
+  icon: 1-Nav-Adguardhome-green.svg
+  desc: 上游 OpenClash
   ip: 10.11.10.2
-  port: 5000
-- name: 示例链接
-  link: https://link.example.com
-  icon: ChatGPT.svg
-  desc: 链接描述文本
-- name: 示例链接
-  link: https://link.example.com
-  icon: Gemini.svg
-  desc: 链接描述文本
-- name: 示例链接
-  link: https://link.example.com
-  icon: ChatGPT.svg
-  desc: 链接描述文本
-- name: 示例链接
-  link: https://link.example.com
-  icon: Gemini.svg
-  desc: 链接描述文本
-- name: 示例链接
-  link: https://link.example.com
-  icon: ChatGPT.svg
-  desc: 链接描述文本
-- name: 示例链接
-  link: https://link.example.com
-  icon: Gemini.svg
-  desc: 链接描述文本
+  port: 53
+
+- name: AdGuardHome
+  link: https://dns2.yx.vickai.com
+  icon: 1-Nav-Adguardhome-red.svg
+  desc: 上游移动运营商
+  ip: 10.11.10.5
+  port: 53
+
+- name: ClashBoard
+  link: https://clash.vickai.com
+  icon: 1-Nav-Clash.svg
+  desc: OpenClash 管理面板
+  ip: 10.11.10.13
+  port: 80
+
+- name: YXTrueNas
+  link: https://truenas.yx.vickai.com
+  icon: 1-Nav-TrueNAS.svg
+  desc: 郭井TrueNas
+  ip: 10.11.10.200
+  port: 80
+
+- name: DockeHand
+  link: https://docker.vickai.com
+  icon: 1-Nav-Docker.svg
+  desc: Docker管理面板
+  ip: 10.11.10.18
+  port: 80
+
+- name: FileBrowser
+  link: http://file-i3.yx.vickai.com
+  icon: 1-Nav-FileBrowser.svg
+  desc: Ubuntu 文件管理器
+  ip: 10.11.10.19
+  port: 80
