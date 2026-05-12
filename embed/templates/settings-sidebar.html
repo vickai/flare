@@ -4,6 +4,16 @@
 
 {{ if eq .PageName "Theme" }}
     <a href="{{ .SettingPages.Theme.Path }}" class="active">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}">{{ T .Locale "nav_service" }}</a>
+    <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
+    <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
+    <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
+    <a href="{{ .SettingPages.Others.Path }}">{{ T .Locale "nav_others" }}</a>
+{{ end }}
+
+{{ if eq .PageName "Service" }}
+    <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}" class="active">{{ T .Locale "nav_service" }}</a>
     <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
     <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
     <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
@@ -12,6 +22,7 @@
 
 {{ if eq .PageName "Weather" }}
     <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}">{{ T .Locale "nav_service" }}</a>
     <a href="{{ .SettingPages.Weather.Path }}" class="active">{{ T .Locale "nav_weather" }}</a>
     <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
     <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
@@ -20,6 +31,7 @@
 
 {{ if eq .PageName "Search" }}
     <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}">{{ T .Locale "nav_service" }}</a>
     <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
     <a href="{{ .SettingPages.Search.Path }}" class="active">{{ T .Locale "nav_search" }}</a>
     <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
@@ -28,6 +40,7 @@
 
 {{ if eq .PageName "Appearance" }}
     <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}">{{ T .Locale "nav_service" }}</a>
     <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
     <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
     <a href="{{ .SettingPages.Appearance.Path }}" class="active">{{ T .Locale "nav_appearance" }}</a>
@@ -36,6 +49,7 @@
 
 {{ if eq .PageName "Others" }}
     <a href="{{ .SettingPages.Theme.Path }}">{{ T .Locale "nav_theme" }}</a>
+    <a href="{{ .SettingPages.Service.Path }}">{{ T .Locale "nav_service" }}</a>
     <a href="{{ .SettingPages.Weather.Path }}">{{ T .Locale "nav_weather" }}</a>
     <a href="{{ .SettingPages.Search.Path }}">{{ T .Locale "nav_search" }}</a>
     <a href="{{ .SettingPages.Appearance.Path }}">{{ T .Locale "nav_appearance" }}</a>
