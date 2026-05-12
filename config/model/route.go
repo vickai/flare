@@ -30,6 +30,7 @@ type RouteMaps struct {
 	// Settings Pages
 	Settings   Page `json:"Settings"`
 	Theme      Page `json:"Theme"`
+	Service    Page `json:"Service"`
 	Weather    Page `json:"Weather"`
 	Search     Page `json:"Search"`
 	Appearance Page `json:"Appearance"`
