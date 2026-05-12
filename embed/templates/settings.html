@@ -26,6 +26,10 @@
           {{ template "settings-theme.html" . }}
         {{ end }}
 
+        {{ if eq .PageName "Service" }}
+        {{ template "settings-service.html" . }}
+        {{ end }}
+
         {{ if eq .PageName "Weather" }}
           {{ template "settings-weather.html" . }}
         {{ end }}
