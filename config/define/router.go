@@ -66,6 +66,11 @@ func getSettingPages() model.RouteMaps {
 			Title: "主题",
 			Path:  "/settings/theme",
 		},
+		Service: model.Page{
+			Name:  "Service",
+			Title: "服务",
+			Path:  "/settings/service",
+		},
 		Weather: model.Page{
 			Name:  "Weather",
 			Title: "天气",
