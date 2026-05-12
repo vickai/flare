@@ -129,6 +129,51 @@
 #vickai-services {
   margin-bottom: 30px;
 }
+#vickai-services .vickai-service-nav {
+  padding: 10px 0 20px;
+  border-bottom: 1px dotted #033b3b;
+  margin-bottom: 20px;
+}
+#vickai-services .vickai-service-nav a {
+  background: rgba(4, 60, 60, 0.1);
+  border: 1px solid rgba(49, 212, 154, 0.1);
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin: 0 10px 0 0;
+  position: relative;
+  transition: all .2s;
+}
+#vickai-services .vickai-service-nav a:hover {
+  border: 1px solid #31d49a;
+  box-shadow: 0 4px 12px rgba(49, 212, 154, .25);
+}
+.vickai-category-title {
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+.vickai-category-title::after {
+    content: " ";
+    box-sizing: border-box;
+    border-top-width: 1px;
+    display: block;
+    height: 1px;
+    border-top-style: dotted;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 50%;
+    border-top-color: #033b3b;
+}
+.vickai-category-title span {
+    background-color: #031e2a;
+    padding-right: 8px;
+    z-index: 9;
+    position: relative;
+}
 #vickai-services ul {
   list-style: none;
   display: block;
@@ -244,7 +289,6 @@
     border-radius: 0 0 8px 8px;
     border: 1px solid #31d49a;
     border-top: none;
-    margin: 0 5px;
     transition: all .2s;
   }
   #page-settings .sidebar a:hover {
