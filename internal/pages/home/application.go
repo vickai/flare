@@ -524,7 +524,7 @@ func GenerateVickaiService() template.HTML {
 			// 项目循环
 			// 先渲染宿主机 (Self)
 			sName := cleanTSName(tsData.Self.DNSName, tsData.Self.HostName)
-			renderTSNode(b, sName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, tsData.Self.Relay, tsData.Self.CurAddr, tsData.Self.LastSeen)
+			renderTSNode(b, sName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, "本机", "", tsData.Self.LastSeen)
 
 			// 再渲染 Peer 成员
 			for _, p := range tsData.Peer {
