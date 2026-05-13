@@ -113,29 +113,36 @@ func GenerateApplicationsTemplate(filter string, options *model.Application) tem
 }
 
 
-// 内部函数：高性能 TCP 探测
+// 内部函数：智能在线探测 (TCP + Ping 回退)
 func isVickaiAlive(ip string, port int) bool {
-	// 1. 基础检查
 	if ip == "" {
 		return false
 	}
 
-	// 2. 默认值处理：如果 YAML 没填 port，则默认为 80
-	actualPort := port
-	if actualPort <= 0 {
-		actualPort = 80
+	// 1. 如果填了端口，优先进行 TCP 探测 (最准确)
+	if port > 0 {
+		address := net.JoinHostPort(ip, strconv.Itoa(port))
+		// 缩短超时时间到 300ms，平衡探测速度和网络波动
+		conn, err := net.DialTimeout("tcp", address, 300*time.Millisecond)
+		if err == nil {
+			_ = conn.Close() // 显式关闭，习惯更好
+			return true
+		}
+		// 如果 TCP 失败了，不要急着判死刑，尝试 Ping (可能是服务挂了但机器还活着)
 	}
 
-	// 3. 拼接地址
-	address := net.JoinHostPort(ip, strconv.Itoa(actualPort)) // 👈 推荐使用标准库 JoinHostPort，更安全
+	// 2. 回退机制：执行系统 Ping 探测
+	// 依赖 Dockerfile 中安装的 iputils-ping
+	// -c 1: 发送 1 个包
+	// -W 1: 等待 1 秒超时
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
 
-	// 4. 执行探测
-	conn, err := net.DialTimeout("tcp", address, 200*time.Millisecond)
-	if err == nil {
-		defer conn.Close() // 使用 defer 确保即使后续逻辑复杂也会关闭连接
-		return true
-	}
-	return false
+	cmd := exec.CommandContext(ctx, "ping", "-c", "1", "-W", "1", ip)
+	err := cmd.Run()
+
+	// 如果命令执行成功（Exit Code 0），说明设备在网
+	return err == nil
 }
 
 
@@ -414,7 +421,7 @@ func GenerateVickaiNav() template.HTML {
 }
 
 func GenerateVickaiService() template.HTML {
-	// 1. 自动寻址与读取 (保持原有逻辑)
+	// 1. 自动寻址与读取 YAML
 	paths := []string{"/app/vickai-services.yml", "./vickai-services.yml"}
 	var buf []byte
 	var err error
@@ -425,61 +432,69 @@ func GenerateVickaiService() template.HTML {
 	if err != nil { return template.HTML("") }
 
 	// 2. 解析支持分类的 YAML 结构
-	type VickaiServiceGroup struct {
-		Category string                `yaml:"category"`
-		Items    []model.VickaiService `yaml:"items"`
-	}
 	var data struct {
-		Groups []VickaiServiceGroup `yaml:"groups"`
+		Groups []model.VickaiServiceGroup `yaml:"groups"`
 	}
 	if err := yaml.Unmarshal(buf, &data); err != nil {
 		return template.HTML("vickai-services.yml 格式解析错误")
 	}
 
-	// 2.1. 并发探测状态 (逻辑保持不变)
+	// 3. 状态获取：并发探测 TCP 与 Tailscale 抓取
 	var wg sync.WaitGroup
 	statusMap := make(map[string]bool)
 	var mu sync.Mutex
+	var tsData *model.TailscaleStatus
+
 	for _, group := range data.Groups {
-		for _, app := range group.Items {
-			if app.IP != "" {
-				wg.Add(1)
-				go func(targetIP string, targetPort int) {
-					defer wg.Done()
-					alive := isVickaiAlive(targetIP, targetPort)
-					key := targetIP + ":" + strconv.Itoa(targetPort)
-					mu.Lock()
-					statusMap[key] = alive
-					mu.Unlock()
-				}(app.IP, app.Port)
+		if group.Category == "Tailscale节点" {
+			// 如果是 Tailscale 分类，通过命令获取 JSON
+			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+			cmd := exec.CommandContext(ctx, "tailscale", "--socket=/var/run/tailscale/tailscaled.sock", "status", "--json")
+			if output, err := cmd.Output(); err == nil {
+				json.Unmarshal(output, &tsData)
+			}
+			cancel()
+		} else {
+			// 普通分类，并发探测 TCP/Ping
+			for _, app := range group.Items {
+				if app.IP != "" {
+					wg.Add(1)
+					go func(targetIP string, targetPort int) {
+						defer wg.Done()
+						alive := isVickaiAlive(targetIP, targetPort)
+						key := targetIP + ":" + strconv.Itoa(targetPort)
+						mu.Lock()
+						statusMap[key] = alive
+						mu.Unlock()
+					}(app.IP, app.Port)
+				}
 			}
 		}
 	}
 	wg.Wait()
 
-	// 3. 准备 Builder
+	// 4. 准备 Builder (从对象池获取)
 	b := builderPool.Get().(*strings.Builder)
 	b.Reset()
 	defer builderPool.Put(b)
 
-	// --- 4. 第一阶段：生成顶部导航栏 ---
+	// --- 5. 第一阶段：生成顶部导航栏 ---
 	b.WriteString(`<div class="vickai-service-nav">`)
 	for i, group := range data.Groups {
-		// 使用索引 i 生成唯一 ID
-		categoryID := "cat-" + strconv.Itoa(i)
+		categoryID := "v-cat-" + strconv.Itoa(i)
 		b.WriteString(`<a href="#` + categoryID + `">` + group.Category + `</a>`)
 	}
 	b.WriteString(`</div>`)
 
-	// --- 5. 第二阶段：生成详细列表内容 ---
+	// --- 6. 第二阶段：生成详细列表内容 ---
 	for i, group := range data.Groups {
-		categoryID := "cat-" + strconv.Itoa(i)
+		categoryID := "v-cat-" + strconv.Itoa(i)
 
 		b.WriteString(`<div class="vickai-service-group" id="` + categoryID + `">`)
 		b.WriteString(`<h3 class="vickai-category-title"><span>` + group.Category + `</span></h3>`)
-
 		b.WriteString(`<ul>`)
-		// 写入表头
+
+		// 写入表头 (保持原有结构)
 		b.WriteString(`<li class="vickai-table-header clearfix">`)
 		b.WriteString(`<span class="vickai-dot-title">状态</span>`)
 		b.WriteString(`<span class="vickai-name-title">名称</span>`)
@@ -487,10 +502,35 @@ func GenerateVickaiService() template.HTML {
 		b.WriteString(`<span class="vickai-port-title">端口</span>`)
 		b.WriteString(`</li>`)
 
-		for _, app := range group.Items {
-			statusClass := ""
-			statusClassLi := ` class="clearfix"`
-			if app.IP != "" {
+		if group.Category == "Tailscale" && tsData != nil {
+			// 处理动态 Tailscale 节点
+			for _, p := range tsData.Peer {
+				statusClass := "status-offline"
+				statusClassLi := ` class="offline clearfix"`
+				if p.Online {
+					statusClass = "status-online"
+					statusClassLi = ` class="online clearfix"`
+				}
+
+				b.WriteString(`<li` + statusClassLi + `>`)
+				b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
+				b.WriteString(`<span class="vickai-name">` + p.HostName + ` (` + p.OS + `)</span>`)
+
+				ip := "N/A"
+				if len(p.TailscaleIPs) > 0 { ip = p.TailscaleIPs[0] }
+				b.WriteString(`<span class="vickai-ip">` + ip + `</span>`)
+
+				mode := "Direct"
+				if p.Relay != "" { mode = "DERP:" + p.Relay }
+				b.WriteString(`<span class="vickai-port">` + mode + `</span>`)
+				b.WriteString(`</li>`)
+			}
+		} else {
+			// 处理普通配置的 items
+			for _, app := range group.Items {
+				statusClass := ""
+				statusClassLi := ` class="clearfix"`
+
 				checkKey := app.IP + ":" + strconv.Itoa(app.Port)
 				mu.Lock()
 				isAlive := statusMap[checkKey]
@@ -501,18 +541,14 @@ func GenerateVickaiService() template.HTML {
 				} else {
 					statusClass = "status-offline"; statusClassLi = ` class="offline clearfix"`
 				}
-			}
 
-			b.WriteString(`<li` + statusClassLi + `>`)
-			if statusClass != "" {
+				b.WriteString(`<li` + statusClassLi + `>`)
 				b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
-			} else {
-				b.WriteString(`<span class="vickai-dot"></span>`)
+				b.WriteString(`<span class="vickai-name">` + app.Name + `</span>`)
+				b.WriteString(`<span class="vickai-ip">` + app.IP + `</span>`)
+				b.WriteString(`<span class="vickai-port">` + strconv.Itoa(app.Port) + `</span>`)
+				b.WriteString(`</li>`)
 			}
-			b.WriteString(`<span class="vickai-name">` + app.Name + `</span>`)
-			b.WriteString(`<span class="vickai-ip">` + app.IP + `</span>`)
-			b.WriteString(`<span class="vickai-port">` + strconv.Itoa(app.Port) + `</span>`)
-			b.WriteString(`</li>`)
 		}
 		b.WriteString(`</ul></div>`)
 	}
