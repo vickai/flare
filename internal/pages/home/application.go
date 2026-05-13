@@ -449,7 +449,8 @@ func GenerateVickaiService() template.HTML {
 	var tsData *model.TailscaleStatus
 
 	for _, group := range data.Groups {
-		if group.Category == "Tailscale节点" {
+		// 匹配 YAML 中的分类名称
+		if group.Category == "Tailscale" {
 			// 如果是 Tailscale 分类，通过命令获取 JSON
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 			cmd := exec.CommandContext(ctx, "tailscale", "--socket=/var/run/tailscale/tailscaled.sock", "status", "--json")
@@ -484,6 +485,7 @@ func GenerateVickaiService() template.HTML {
 	// --- 5. 第一阶段：生成顶部导航栏 ---
 	b.WriteString(`<div class="vickai-service-nav">`)
 	for i, group := range data.Groups {
+		// 使用索引 i 生成唯一 ID
 		categoryID := "v-cat-" + strconv.Itoa(i)
 		b.WriteString(`<a href="#` + categoryID + `">` + group.Category + `</a>`)
 	}
@@ -505,31 +507,17 @@ func GenerateVickaiService() template.HTML {
 		b.WriteString(`<span class="vickai-port-title">端口</span>`)
 		b.WriteString(`</li>`)
 
+		// 特殊处理 Tailscale 分类
 		if group.Category == "Tailscale" && tsData != nil {
-			// 处理动态 Tailscale 节点
+			// 6.1 渲染宿主机自身 (Self)
+			renderTSNode(b, tsData.Self.HostName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, tsData.Self.Relay)
+
+			// 6.2 渲染其他成员 (Peer)
 			for _, p := range tsData.Peer {
-				statusClass := "status-offline"
-				statusClassLi := ` class="offline clearfix"`
-				if p.Online {
-					statusClass = "status-online"
-					statusClassLi = ` class="online clearfix"`
-				}
-
-				b.WriteString(`<li` + statusClassLi + `>`)
-				b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
-				b.WriteString(`<span class="vickai-name">` + p.HostName + ` (` + p.OS + `)</span>`)
-
-				ip := "N/A"
-				if len(p.TailscaleIPs) > 0 { ip = p.TailscaleIPs[0] }
-				b.WriteString(`<span class="vickai-ip">` + ip + `</span>`)
-
-				mode := "Direct"
-				if p.Relay != "" { mode = "DERP:" + p.Relay }
-				b.WriteString(`<span class="vickai-port">` + mode + `</span>`)
-				b.WriteString(`</li>`)
+				renderTSNode(b, p.HostName, p.OS, p.Online, p.TailscaleIPs, p.Relay)
 			}
 		} else {
-			// 处理普通配置的 items
+			// 6.3 处理普通配置的 items
 			for _, app := range group.Items {
 				statusClass := ""
 				statusClassLi := ` class="clearfix"`
@@ -557,4 +545,31 @@ func GenerateVickaiService() template.HTML {
 	}
 
 	return template.HTML(b.String())
+}
+
+// 辅助函数：渲染 Tailscale 节点 HTML (避免重复代码)
+func renderTSNode(b *strings.Builder, name, os string, online bool, ips []string, relay string) {
+	statusClass := "status-offline"
+	statusClassLi := ` class="offline clearfix"`
+	if online {
+		statusClass = "status-online"
+		statusClassLi = ` class="online clearfix"`
+	}
+
+	b.WriteString(`<li` + statusClassLi + `>`)
+	b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
+	b.WriteString(`<span class="vickai-name">` + name + ` <small>(` + os + `)</small></span>`)
+
+	ip := "N/A"
+	if len(ips) > 0 {
+		ip = ips[0]
+	}
+	b.WriteString(`<span class="vickai-ip">` + ip + `</span>`)
+
+	mode := "Direct"
+	if relay != "" {
+		mode = "DERP:" + relay
+	}
+	b.WriteString(`<span class="vickai-port">` + mode + `</span>`)
+	b.WriteString(`</li>`)
 }
