@@ -352,11 +352,11 @@
   }
   .vickai-ts-os-title,
   .vickai-ts-os {
-    display: none;
+    display: none !important;
   }
   .vickai-ts-time-title,
   .vickai-ts-time {
-    display: none;
+    display: none !important;
   }
 
 }
@@ -468,25 +468,37 @@
   }
 
   #vickai-services ul li .vickai-ts-dot {
+    text-align: center;
+    height: 48px;
+    line-height: 48px;
+    vertical-align: middle;
   }
 
   #vickai-services ul li .vickai-ts-dot i {
+    display: inline-block;
   }
 
-  .vickai-ts-name-title,
-  .vickai-ts-name {
+  .vickai-ts-name-title {
+    text-indent: inherit;
+    width: auto;
+    margin-right: 5px;
+  }
+  .vickai-ts-name-title::before {
+    content: " - ";
   }
 
   .vickai-ts-os-title,
   .vickai-ts-os {
   }
 
-  .vickai-ts-ip-title,
-  .vickai-ts-ip {
+  .vickai-ts-ip-title {
+    width: auto;
   }
 
-  .vickai-ts-mode-title,
-  .vickai-ts-mode {
+  .vickai-ts-mode-title {
+    text-align: center;
+    float: right;
+    width: 80px;
   }
 
   .vickai-ts-time-title,
@@ -494,15 +506,35 @@
   }
 
   .vickai-ts-name {
+    text-indent: inherit;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 0 60px;
+    height: 24px;
+    line-height: 24px;
+    top: 8px;
   }
 
   .vickai-ts-os {
   }
 
   .vickai-ts-ip {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    padding: 0 60px;
+    height: 24px;
+    line-height: 24px;
+    width: 100%;
   }
 
   .vickai-ts-mode {
+    width: 80px;
+    text-align: center;
+    float: right;
+    height: 48px;
+    line-height: 48px;
   }
   .vickai-ts-time {
   }
