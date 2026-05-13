@@ -1,7 +1,10 @@
 package home
 
 import (
+	"context"      // 👈 新增：用于处理命令超时
+	"encoding/json" // 👈 新增：用于解析 Tailscale 的 JSON 输出
 	"os" // 新增 os 包用于读取本地文件
+	"os/exec"      // 👈 新增：用于执行 tailscale 和 ping 命令
 	"gopkg.in/yaml.v2" // 新增 解析 yml 文件
 	"net" // 探测在线状态
 	"strconv" // 探测在线状态
