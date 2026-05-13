@@ -32,9 +32,27 @@ type VickaiBookmark struct {
 	Port     int    `yaml:"port,omitempty"`
 }
 
+// VickaiServiceGroup 用于支持分类
+type VickaiServiceGroup struct {
+	Category string           `yaml:"category"`
+	Items    []VickaiService  `yaml:"items"`
+}
+
 // 支持 IP 端口服务在线探测
 type VickaiService struct {
 	Name     string `yaml:"name"`
 	IP   	 string `yaml:"ip,omitempty"`
 	Port     int    `yaml:"port,omitempty"`
 }
+
+// TailscaleStatus 用于解析 tailscale status --json
+type TailscaleStatus struct {
+	Peer map[string]struct {
+		HostName     string   `json:"HostName"`
+		Online       bool     `json:"Online"`
+		TailscaleIPs []string `json:"TailscaleIPs"`
+		OS           string   `json:"OS"`
+		Relay        string   `json:"Relay"`
+	} `json:"Peer"`
+}
+
