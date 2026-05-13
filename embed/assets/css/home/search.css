@@ -30,8 +30,8 @@
   color: #31d49a;
   line-height: 20px;
   font-weight: 620;
-
 }
+
 #search-container #search-label {
   text-align: left;
   width: 100%;
@@ -41,12 +41,13 @@
   color: #31d49a;
   line-height: 20px;
   font-weight: 620;
-
 }
+
 #search-container #search:active+label {
   opacity: 1;
   transition: all 0.2s;
 }
+
 #search-container #search:focus+label {
   opacity: 1;
   transition: all 0.2s;

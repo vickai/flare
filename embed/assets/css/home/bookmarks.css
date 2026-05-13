@@ -33,7 +33,6 @@
   box-sizing: border-box;
 }
 
-
 #container-bookmakrs .bookmark-group-container h3 {
   white-space: nowrap;
   overflow: hidden;
@@ -86,6 +85,7 @@
   border-top-color: #9b59b6;
   color: #9b59b6;
 }
+
 #container-bookmakrs .bookmark-group-container:nth-child(6n+6) h3.bookmark-group-title {
   border-top-color: #e74c3c;
   color: #e74c3c;

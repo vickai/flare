@@ -3,9 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
   background-color: #030e23;
   transition: background-color 0.3s;
@@ -53,7 +55,6 @@ h2 a {
 }
 
 .pageview {
-
 }
 
 .container {
@@ -100,6 +101,7 @@ h2 a {
 #sub-page .plugin-container h2 {
   display: none;
 }
+
 .plugin-container h2 {
   font-weight: 400;
   font-size: 20px;

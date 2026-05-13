@@ -1,6 +1,7 @@
 #page-settings .container {
   padding: 25px 25px 15px;
 }
+
 #page-settings .main-container {
   background-color: #031e2a;
   border-top: 2px solid #31d49a;
@@ -10,7 +11,6 @@
   border-radius: 8px;
   position: relative;
 }
-
 
 #page-settings .form-group label,
 #page-settings .form-group select,

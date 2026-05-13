@@ -23,7 +23,6 @@
   margin-right: 5px;
 }
 
-
 #container-apps .apps-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
