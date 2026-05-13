@@ -1,5 +1,9 @@
 package model
 
+import (
+	"time"
+)
+
 // Generic Bookmark Data Model
 type Bookmark struct {
 	Name     string `yaml:"name"`
@@ -47,21 +51,25 @@ type VickaiService struct {
 
 // TailscaleStatus 用于解析 tailscale status --json
 type TailscaleStatus struct {
-	// 重点：加上 Self 节点，否则你看不到宿主机本身
 	Self struct {
-		HostName     string   `json:"HostName"`
-		Online       bool     `json:"Online"`
-		TailscaleIPs []string `json:"TailscaleIPs"`
-		OS           string   `json:"OS"`
-		Relay        string   `json:"Relay"`
+		HostName     string    `json:"HostName"`
+		DNSName      string    `json:"DNSName"`
+		Online       bool      `json:"Online"`
+		TailscaleIPs []string  `json:"TailscaleIPs"`
+		OS           string    `json:"OS"`
+		Relay        string    `json:"Relay"`
+		CurAddr      string    `json:"CurAddr"`
+		LastSeen     time.Time `json:"LastSeen"`
 	} `json:"Self"`
-	// 重点：Peer 的 key 是字符串，value 是结构体
 	Peer map[string]struct {
-		HostName     string   `json:"HostName"`
-		Online       bool     `json:"Online"`
-		TailscaleIPs []string `json:"TailscaleIPs"`
-		OS           string   `json:"OS"`
-		Relay        string   `json:"Relay"`
+		HostName     string    `json:"HostName"`
+		DNSName      string    `json:"DNSName"`
+		Online       bool      `json:"Online"`
+		TailscaleIPs []string  `json:"TailscaleIPs"`
+		OS           string    `json:"OS"`
+		Relay        string    `json:"Relay"`
+		CurAddr      string    `json:"CurAddr"`
+		LastSeen     time.Time `json:"LastSeen"`
 	} `json:"Peer"`
 }
 

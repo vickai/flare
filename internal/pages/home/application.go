@@ -423,6 +423,7 @@ func GenerateVickaiNav() template.HTML {
 	return template.HTML(b.String())
 }
 
+// GenerateVickaiService 生成带有分类导航、TCP探测及动态Tailscale状态的HTML内容
 func GenerateVickaiService() template.HTML {
 	// 1. 自动寻址与读取 YAML
 	paths := []string{"/app/vickai-services.yml", "./vickai-services.yml"}
@@ -442,24 +443,24 @@ func GenerateVickaiService() template.HTML {
 		return template.HTML("vickai-services.yml 格式解析错误")
 	}
 
-	// 3. 状态获取：并发探测 TCP 与 Tailscale 抓取
+	// 3. 状态获取准备
 	var wg sync.WaitGroup
 	statusMap := make(map[string]bool)
 	var mu sync.Mutex
 	var tsData *model.TailscaleStatus
 
+	// 3.1 遍历分类进行探测
 	for _, group := range data.Groups {
-		// 匹配 YAML 中的分类名称
 		if group.Category == "Tailscale" {
-			// 如果是 Tailscale 分类，通过命令获取 JSON
+			// 如果是 Tailscale 分类，通过 Socket 获取实时 JSON 状态
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 			cmd := exec.CommandContext(ctx, "tailscale", "--socket=/var/run/tailscale/tailscaled.sock", "status", "--json")
 			if output, err := cmd.Output(); err == nil {
-				json.Unmarshal(output, &tsData)
+				_ = json.Unmarshal(output, &tsData)
 			}
 			cancel()
 		} else {
-			// 普通分类，并发探测 TCP/Ping
+			// 普通分类，并发执行 TCP/Ping 高性能探测
 			for _, app := range group.Items {
 				if app.IP != "" {
 					wg.Add(1)
@@ -477,60 +478,86 @@ func GenerateVickaiService() template.HTML {
 	}
 	wg.Wait()
 
-	// 4. 准备 Builder (从对象池获取)
+	// 4. 准备 Builder (从对象池获取以优化内存)
 	b := builderPool.Get().(*strings.Builder)
 	b.Reset()
 	defer builderPool.Put(b)
 
-	// --- 5. 第一阶段：生成顶部导航栏 ---
+	// 5. 内部辅助：清洗 Tailscale 名称 (优先取 DNSName 前缀)
+	cleanTSName := func(dnsName, hostName string) string {
+		if dnsName != "" {
+			trimmed := strings.TrimSuffix(dnsName, ".")
+			parts := strings.Split(trimmed, ".")
+			if len(parts) > 0 && parts[0] != "" {
+				return parts[0]
+			}
+		}
+		return hostName
+	}
+
+	// --- 6. 第一阶段：生成顶部导航栏 ---
 	b.WriteString(`<div class="vickai-service-nav">`)
 	for i, group := range data.Groups {
-		// 使用索引 i 生成唯一 ID
 		categoryID := "v-cat-" + strconv.Itoa(i)
 		b.WriteString(`<a href="#` + categoryID + `">` + group.Category + `</a>`)
 	}
 	b.WriteString(`</div>`)
 
-	// --- 6. 第二阶段：生成详细列表内容 ---
+	// --- 7. 第二阶段：生成详细列表内容 ---
 	for i, group := range data.Groups {
 		categoryID := "v-cat-" + strconv.Itoa(i)
 
-		b.WriteString(`<div class="vickai-service-group" id="` + categoryID + `">`)
-		b.WriteString(`<h3 class="vickai-category-title"><span>` + group.Category + `</span></h3>`)
-		b.WriteString(`<ul>`)
-
-		// 写入表头 (保持原有结构)
-		b.WriteString(`<li class="vickai-table-header clearfix">`)
-		b.WriteString(`<span class="vickai-dot-title">状态</span>`)
-		b.WriteString(`<span class="vickai-name-title">名称</span>`)
-		b.WriteString(`<span class="vickai-ip-title">地址</span>`)
-		b.WriteString(`<span class="vickai-port-title">端口</span>`)
-		b.WriteString(`</li>`)
-
-		// 特殊处理 Tailscale 分类
 		if group.Category == "Tailscale" && tsData != nil {
-			// 6.1 渲染宿主机自身 (Self)
-			renderTSNode(b, tsData.Self.HostName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, tsData.Self.Relay)
+			// 7.1 处理动态 Tailscale 节点
+			// 写入表头
+			b.WriteString(`<div class="vickai-ts-service-group" id="` + categoryID + `">`)
+			b.WriteString(`<h3 class="vickai-category-title"><span>` + group.Category + `</span></h3>`)
+			b.WriteString(`<ul>`)
+			b.WriteString(`<li class="vickai-ts-table-header clearfix">`)
+			b.WriteString(`<span class="vickai-ts-dot-title">状态</span>`)
+			b.WriteString(`<span class="vickai-ts-name-title">主机名</span>`)
+			b.WriteString(`<span class="vickai-ts-os-title">操作系统</span>`)
+			b.WriteString(`<span class="vickai-ts-ip-title">Tailscale IP</span>`)
+			b.WriteString(`<span class="vickai-ts-mode-title">连接信息</span>`)
+			b.WriteString(`<span class="vickai-ts-time-title">最后在线</span>`)
+			b.WriteString(`</li>`)
+			// 项目循环
+			// 先渲染宿主机 (Self)
+			sName := cleanTSName(tsData.Self.DNSName, tsData.Self.HostName)
+			renderTSNode(b, sName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, tsData.Self.Relay, tsData.Self.CurAddr, tsData.Self.LastSeen)
 
-			// 6.2 渲染其他成员 (Peer)
+			// 再渲染 Peer 成员
 			for _, p := range tsData.Peer {
-				renderTSNode(b, p.HostName, p.OS, p.Online, p.TailscaleIPs, p.Relay)
+				pName := cleanTSName(p.DNSName, p.HostName)
+				renderTSNode(b, pName, p.OS, p.Online, p.TailscaleIPs, p.Relay, p.CurAddr, p.LastSeen)
 			}
 		} else {
-			// 6.3 处理普通配置的 items
+			// 7.2 处理普通配置项目
+			// 写入表头
+			b.WriteString(`<div class="vickai-service-group" id="` + categoryID + `">`)
+			b.WriteString(`<h3 class="vickai-category-title"><span>` + group.Category + `</span></h3>`)
+			b.WriteString(`<ul>`)
+			b.WriteString(`<li class="vickai-table-header clearfix">`)
+			b.WriteString(`<span class="vickai-dot-title">状态</span>`)
+			b.WriteString(`<span class="vickai-name-title">服务名称</span>`)
+			b.WriteString(`<span class="vickai-ip-title">服务地址</span>`)
+			b.WriteString(`<span class="vickai-port-title">检测端口</span>`)
+			b.WriteString(`</li>`)
+			// 项目循环
 			for _, app := range group.Items {
-				statusClass := ""
+				statusClass := "status-offline"
 				statusClassLi := ` class="clearfix"`
+				if app.IP != "" {
+					checkKey := app.IP + ":" + strconv.Itoa(app.Port)
+					mu.Lock()
+					isAlive := statusMap[checkKey]
+					mu.Unlock()
 
-				checkKey := app.IP + ":" + strconv.Itoa(app.Port)
-				mu.Lock()
-				isAlive := statusMap[checkKey]
-				mu.Unlock()
-
-				if isAlive {
-					statusClass = "status-online"; statusClassLi = ` class="online clearfix"`
-				} else {
-					statusClass = "status-offline"; statusClassLi = ` class="offline clearfix"`
+					if isAlive {
+						statusClass = "status-online"; statusClassLi = ` class="online clearfix"`
+					} else {
+						statusClass = "status-offline"; statusClassLi = ` class="offline clearfix"`
+					}
 				}
 
 				b.WriteString(`<li` + statusClassLi + `>`)
@@ -547,29 +574,49 @@ func GenerateVickaiService() template.HTML {
 	return template.HTML(b.String())
 }
 
-// 辅助函数：渲染 Tailscale 节点 HTML (避免重复代码)
-func renderTSNode(b *strings.Builder, name, os string, online bool, ips []string, relay string) {
+// renderTSNode 辅助函数：渲染单个 Tailscale 节点的 HTML 行
+func renderTSNode(b *strings.Builder, name, os string, online bool, ips []string, relay string, curAddr string, lastSeen time.Time) {
 	statusClass := "status-offline"
-	statusClassLi := ` class="offline clearfix"`
-	if online {
+	statusLi := ` class="offline clearfix"`
+	// 如果 Online 为真或 CurAddr 有值（隧道已建立），判定为在线
+	if online || curAddr != "" {
 		statusClass = "status-online"
-		statusClassLi = ` class="online clearfix"`
+		statusLi = ` class="online clearfix"`
 	}
 
-	b.WriteString(`<li` + statusClassLi + `>`)
-	b.WriteString(`<span class="vickai-dot ` + statusClass + `"><i></i></span>`)
-	b.WriteString(`<span class="vickai-name">` + name + ` <small>(` + os + `)</small></span>`)
+	b.WriteString(`<li` + statusLi + `>`)
+	b.WriteString(`<span class="vickai-ts-dot ` + statusClass + `"><i></i></span>`)
+	b.WriteString(`<span class="vickai-ts-name">` + name + `</span>`)
+	b.WriteString(`<span class="vickai-ts-os">` + os + `</span>`)
 
 	ip := "N/A"
-	if len(ips) > 0 {
-		ip = ips[0]
-	}
-	b.WriteString(`<span class="vickai-ip">` + ip + `</span>`)
+	if len(ips) > 0 { ip = ips[0] }
+	b.WriteString(`<span class="vickai-ts-ip">` + ip + `</span>`)
 
-	mode := "Direct"
-	if relay != "" {
-		mode = "DERP:" + relay
+	// 计算连接模式
+	connMode := "离线"
+	if curAddr != "" {
+		connMode = "直连"
+	} else if relay != "" {
+		connMode = "中继:" + relay
+	} else if online {
+		connMode = "待机"
 	}
-	b.WriteString(`<span class="vickai-port">` + mode + `</span>`)
+
+	// 格式化上次在线时间
+	timeStr := formatLastSeen(lastSeen)
+
+	b.WriteString(`<span class="vickai-ts-mode">` + connMode + `</span>`)
+	b.WriteString(`<span class="vickai-ts-time">` + timeStr + `</span>`)
 	b.WriteString(`</li>`)
+}
+
+// formatLastSeen 将 time.Time 转换为易读的相对时间
+func formatLastSeen(t time.Time) string {
+	if t.IsZero() || t.Year() < 2000 { return "现在" }
+	duration := time.Since(t)
+	if duration.Minutes() < 1 { return "现在" }
+	if duration.Hours() < 1 { return strconv.Itoa(int(duration.Minutes())) + "分钟前" }
+	if duration.Hours() < 24 { return strconv.Itoa(int(duration.Hours())) + "小时前" }
+	return strconv.Itoa(int(duration.Hours()/24)) + "天前"
 }

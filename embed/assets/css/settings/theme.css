@@ -148,6 +148,13 @@
   border: 1px solid #31d49a;
   box-shadow: 0 4px 12px rgba(49, 212, 154, .25);
 }
+
+.vickai-ts-service-group {
+    margin-bottom: 40px;
+    border-bottom: 2px solid #31d49a;
+    padding-bottom: 40px;
+}
+
 .vickai-category-title {
     margin-bottom: 10px;
     position: relative;
@@ -174,6 +181,8 @@
     z-index: 9;
     position: relative;
 }
+
+
 #vickai-services ul {
   list-style: none;
   display: block;
@@ -212,11 +221,69 @@
   color: #ff4d4d;
   text-shadow:  0 0 4px #ff4d4d;
 }
+#vickai-services ul li .vickai-ts-dot-title,
+#vickai-services ul li .vickai-ts-dot,
 #vickai-services ul li .vickai-dot-title,
 #vickai-services ul li .vickai-dot {
   width: 50px;
   text-align: center;
 }
+
+#vickai-services ul li .vickai-ts-dot i,
+#vickai-services ul li .vickai-dot i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(49, 212, 154, 0.1);
+  cursor: default;
+  margin: 0 auto;
+}
+#vickai-services ul li .vickai-ts-dot.status-online i,
+#vickai-services ul li .vickai-dot.status-online i {
+  background: #00ff00;
+  box-shadow: 0 0 4px #00ff00;
+}
+#vickai-services ul li .vickai-ts-dot.status-offline i,
+#vickai-services ul li .vickai-dot.status-offline i {
+  background: #ff4d4d;
+  box-shadow: 0 0 4px #ff4d4d;
+}
+
+.vickai-ts-name-title,
+.vickai-ts-name {
+
+}
+.vickai-ts-os-title,
+.vickai-ts-os {
+
+}
+.vickai-ts-ip-title,
+.vickai-ts-ip {
+
+}
+.vickai-ts-mode-title,
+.vickai-ts-mode {
+
+}
+.vickai-ts-time-title,
+.vickai-ts-time {
+
+}
+
+.vickai-ts-name {
+
+}
+.vickai-ts-os {
+
+}
+.vickai-ts-ip {
+
+}
+.vickai-ts-mode {
+
+}
+
 #vickai-services ul li .vickai-name-title,
 #vickai-services ul li .vickai-name {
   width: calc(100% - 250px);
@@ -232,23 +299,7 @@
   text-align: center;
 }
 
-#vickai-services ul li .vickai-dot i {
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(49, 212, 154, 0.1);
-  cursor: default;
-  margin: 0 auto;
-}
-#vickai-services ul li .vickai-dot.status-online i {
-  background: #00ff00;
-  box-shadow: 0 0 4px #00ff00;
-}
-#vickai-services ul li .vickai-dot.status-offline i {
-  background: #ff4d4d;
-  box-shadow: 0 0 4px #ff4d4d;
-}
+
 #vickai-services ul li .vickai-name {
 
 }
