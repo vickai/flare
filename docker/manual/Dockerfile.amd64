@@ -45,8 +45,17 @@ FROM alpine:3.18
 # 设置时区为上海
 ENV TZ=Asia/Shanghai
 
-# 安装时区数据并清理缓存
-RUN apk add --no-cache tzdata ca-certificates mailcap && \
+# 核心修改：安装 tailscale 客户端
+# 1. tzdata/ca-certificates: 基础环境
+# 2. mailcap: 原作者依赖
+# 3. tailscale: 引入客户端，用于通过 Unix Socket 通信
+# 4. iputils-ping: 方便对没有端口的设备执行 Ping 探测
+RUN apk add --no-cache \
+    tzdata \
+    ca-certificates \
+    mailcap \
+    tailscale \
+    iputils-ping && \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     rm -rf /var/cache/apk/*
