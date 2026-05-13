@@ -524,7 +524,7 @@ func GenerateVickaiService() template.HTML {
 			// 项目循环
 			// 先渲染宿主机 (Self)
 			sName := cleanTSName(tsData.Self.DNSName, tsData.Self.HostName)
-			renderTSNode(b, sName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, tsData.Self.Relay, tsData.Self.CurAddr, tsData.Self.LastSeen)
+			renderTSNode(b, sName, tsData.Self.OS, tsData.Self.Online, tsData.Self.TailscaleIPs, "本机", "", tsData.Self.LastSeen)
 
 			// 再渲染 Peer 成员
 			for _, p := range tsData.Peer {
@@ -595,13 +595,10 @@ func renderTSNode(b *strings.Builder, name, os string, online bool, ips []string
 
 	// 计算连接模式
 	connMode := "离线"
-
-	if name == sName {
-    	connInfo = "本机"
-	} else if curAddr != "" {
+	if curAddr != "" {
 		connMode = "直连"
 	} else if relay != "" {
-		connMode = "中继:" + relay
+		connMode = relay
 	} else if online {
 		connMode = "待机"
 	}
