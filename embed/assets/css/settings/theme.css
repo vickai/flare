@@ -131,7 +131,7 @@
 }
 #vickai-services .vickai-service-nav {
   padding: 10px 0 20px;
-  border-bottom: 1px dotted #033b3b;
+  border-bottom: 2px solid #31d49a;
   margin-bottom: 20px;
 }
 #vickai-services .vickai-service-nav a {
@@ -252,23 +252,24 @@
 
 .vickai-ts-name-title,
 .vickai-ts-name {
-
+  width: calc(100% - 510px);
+  text-indent: 2em;
 }
 .vickai-ts-os-title,
 .vickai-ts-os {
-
+  width: 100px;
 }
 .vickai-ts-ip-title,
 .vickai-ts-ip {
-
+  width: 120px;
 }
 .vickai-ts-mode-title,
 .vickai-ts-mode {
-
+  width: 130px;
 }
 .vickai-ts-time-title,
 .vickai-ts-time {
-
+  width: 120px;
 }
 
 .vickai-ts-name {
@@ -361,6 +362,58 @@
     display: grid;
   }
 
+
+#vickai-services ul li .vickai-ts-dot-title {
+
+}
+#vickai-services ul li .vickai-ts-dot {
+
+}
+#vickai-services ul li .vickai-ts-dot i {
+
+}
+.vickai-ts-name-title,
+.vickai-ts-name {
+
+}
+.vickai-ts-os-title,
+.vickai-ts-os {
+
+}
+.vickai-ts-ip-title,
+.vickai-ts-ip {
+
+}
+.vickai-ts-mode-title,
+.vickai-ts-mode {
+
+}
+.vickai-ts-time-title,
+.vickai-ts-time {
+
+}
+
+.vickai-ts-name {
+
+}
+.vickai-ts-os {
+
+}
+.vickai-ts-ip {
+
+}
+.vickai-ts-mode {
+
+}
+
+
+
+
+
+
+
+
+
 }
 @media (max-width: 640px) {
   #vickai-bookbarks {
@@ -420,10 +473,10 @@
 #vickai-services ul li .vickai-port-title {
   text-align: center;
   float: right;
-  width: 50px;
+  width: 80px;
 }
 #vickai-services ul li .vickai-port {
-  width: 50px;
+  width: 80px;
   text-align: center;
   float: right;
   height: 48px;
