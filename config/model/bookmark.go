@@ -27,7 +27,7 @@ type Bookmarks struct {
 }
 
 // 支持 IP 探测
-type VickaiBookmark struct {
+type VickaiApplication struct {
 	Name     string `yaml:"name"`
 	URL      string `yaml:"link"`
 	Icon     string `yaml:"icon,omitempty"`
