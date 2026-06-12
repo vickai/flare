@@ -36,6 +36,21 @@ type VickaiApplication struct {
 	Port     int    `yaml:"port,omitempty"`
 }
 
+
+// VickaiBookmarkCategory 代表网址导航的分类定义
+type VickaiBookmarkCategory struct {
+	ID    string `yaml:"id"`
+	Title string `yaml:"title"`
+}
+
+// VickaiBookmarkItem 代表单条网址直达卡片
+type VickaiBookmarkItem struct {
+	Name     string `yaml:"name"`
+	Link     string `yaml:"link"`
+	Icon     string `yaml:"icon,omitempty"`
+	Category string `yaml:"category"`
+}
+
 // VickaiServiceGroup 用于支持分类
 type VickaiServiceGroup struct {
 	Category string           `yaml:"category"`
