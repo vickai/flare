@@ -1,16 +1,16 @@
-#vickai-bookbarks {
+#vickai-application {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding-top: 30px;
 }
 
-#vickai-bookbarks .vickai-container {
+#vickai-application .vickai-container {
   box-sizing: border-box;
   margin-bottom: 20px;
 }
 
-.vickai-item {
+#vickai-application .vickai-item {
   padding: 8px 10px;
   border: 1px solid rgba(49, 212, 154, 0.1);
   border-radius: 8px;
@@ -22,7 +22,7 @@
   vertical-align: top;
 }
 
-.vickai-item::before {
+#vickai-application .vickai-item::before {
   content: "";
   position: absolute;
   left: 0;
@@ -35,40 +35,40 @@
   transition: all .2s;
 }
 
-.vickai-item:hover {
+#vickai-application .vickai-item:hover {
   box-shadow: 0 4px 12px rgba(49, 212, 154, .25);
 }
 
-.vickai-item:hover::before {
+#vickai-application .vickai-item:hover::before {
   border: 1px solid #31d49a;
   border-bottom: 2px solid #31d49a;
 }
 
-.vickai-item .vickai-icon {
+#vickai-application .vickai-item .vickai-icon {
   height: 70px;
   width: 70px;
   padding: 5px;
 }
 
-.vickai-item .vickai-icon svg {
+#vickai-application .vickai-item .vickai-icon svg {
   width: 60px;
   height: 60px;
   color: #f1f5f9;
 }
 
-.vickai-item .vickai-text {
+#vickai-application .vickai-item .vickai-text {
   margin-left: 10px;
   flex: 1;
   overflow: hidden;
 }
 
-.vickai-item .vickai-text .vickai-title {
+#vickai-application .vickai-item .vickai-text .vickai-title {
   font-size: 16px;
   font-weight: 620;
   margin-bottom: 5px;
 }
 
-.vickai-item .vickai-text .vickai-desc {
+#vickai-application .vickai-item .vickai-text .vickai-desc {
   font-size: 14px;
   font-weight: 400;
   display: -webkit-box;
@@ -79,29 +79,29 @@
   opacity: 0.75;
 }
 
-.vickai-item.disabled {
+#vickai-application .vickai-item.disabled {
   cursor: not-allowed;
 }
 
-.vickai-item.disabled:active {
+#vickai-application .vickai-item.disabled:active {
   pointer-events: none;
 }
 
-.vickai-item.disabled:hover {
+#vickai-application .vickai-item.disabled:hover {
   box-shadow: 0 4px 12px rgba(255, 77, 77, .25);
 }
 
-.vickai-item.disabled:hover::before {
+#vickai-application .vickai-item.disabled:hover::before {
   border: 1px solid transparent;
   border-bottom: 2px solid transparent;
 }
 
-.vickai-item.disabled .vickai-icon,
-.vickai-item.disabled .vickai-text {
+#vickai-application .vickai-item.disabled .vickai-icon,
+#vickai-application .vickai-item.disabled .vickai-text {
   opacity: 0.3;
 }
 
-.vickai-item .vickai-dot {
+#vickai-application .vickai-item .vickai-dot {
   display: block;
   width: 8px;
   position: absolute;
@@ -112,17 +112,17 @@
   top: 8px;
 }
 
-.vickai-item .vickai-dot.status-online {
+#vickai-application .vickai-item .vickai-dot.status-online {
   background: #00ff00;
   box-shadow: 0 0 4px #00ff00;
 }
 
-.vickai-item .vickai-dot.status-offline {
+#vickai-application .vickai-item .vickai-dot.status-offline {
   background: #ff4d4d;
   box-shadow: 0 0 4px #ff4d4d;
 }
 
-.vickai-item.disabled i {
+#vickai-application .vickai-item.disabled i {
   font-size: 10px;
   position: absolute;
   right: 8px;
@@ -130,6 +130,109 @@
   color: #ff4d4d;
   text-shadow: 0 0 3px #ff4d4d;
 }
+
+
+#vickai-bookmark {
+
+}
+#vickai-bookmark .vickai-bookmark-nav {
+  padding: 10px 0 20px;
+  border-bottom: 2px solid #31d49a;
+  margin-bottom: 20px;
+}
+
+#vickai-bookmark .vickai-bookmark-nav a {
+  font-size: 14px;
+  background: rgba(4, 60, 60, 0.1);
+  border: 1px solid rgba(49, 212, 154, 0.1);
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin: 0 10px 10px 0;
+  position: relative;
+  transition: all .2s;
+}
+
+#vickai-bookmark .vickai-bookmark-nav a:hover {
+  border: 1px solid #31d49a;
+  box-shadow: 0 4px 12px rgba(49, 212, 154, .25);
+}
+
+#vickai-bookmark .vickai-bookmakr-container {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+#vickai-bookmark .vickai-bookmark-group {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+#vickai-bookmark .bookmarks-list {
+  list-style: none;
+  padding: 10px;
+}
+#vickai-bookmark .bookmarks-list li {
+  margin: 0 0 5px;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark {
+  color: #f1f5f9;
+  font-size: 14px;
+  font-weight: 620;
+  padding: 5px 10px;
+  border-color: transparent;
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  background-color: transparent;
+  transition: all .2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 2;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark img {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  color: #f1f5f9;
+  vertical-align: middle;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark svg,
+#vickai-bookmark .bookmarks-list li a.item-bookmark span {
+  display: inline;
+  vertical-align: middle;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark span {
+  margin-left: 10px;
+  transition: all .2s;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark svg {
+  width: 24px;
+  height: 24px;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark i {
+
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark span {
+  transition: all .2s;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark:hover {
+  box-shadow: 0 4px 12px rgba(49, 212, 154, .25);
+  border-color: #31d49a;
+  background-color: rgba(4, 60, 60, 0.1);
+  text-decoration: none;
+  transition: all .2s;
+  padding: 5px 10px;
+}
+#vickai-bookmark .bookmarks-list li a.item-bookmark:hover span {
+  color: #31d49a;
+}
+
+
+
+
 
 #vickai-services {
   margin-bottom: 30px;
@@ -166,7 +269,7 @@
 .vickai-category-title {
   margin-bottom: 10px;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   margin-top: 20px;
 }
@@ -190,6 +293,8 @@
   padding-right: 8px;
   z-index: 9;
   position: relative;
+  font-weight: 620;
+  font-size: 16px;
 }
 
 #vickai-services ul {
@@ -337,15 +442,21 @@
 
 /* 响应式布局 */
 @media (max-width: 1200px) {
-  #vickai-bookbarks {
+  #vickai-application {
     padding-top: 0;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     display: grid;
   }
+  #vickai-bookmark .vickai-bookmakr-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (max-width: 920px) {
+  #vickai-bookmark .vickai-bookmakr-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
   .vickai-ts-name-title,
   .vickai-ts-name {
     width: calc(100% - 300px);
@@ -402,11 +513,15 @@
     padding: 0 20px 20px;
   }
 
-  #vickai-bookbarks {
+  #vickai-application {
     padding-top: 0;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     display: grid;
+  }
+
+  #vickai-bookmark .vickai-bookmakr-container {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   #vickai-services ul li .vickai-ts-dot-title {
@@ -455,16 +570,48 @@
 }
 
 @media (max-width: 640px) {
-  #vickai-bookbarks {
+  #page-settings .container {
+    padding: 25px 15px 15px;
+  }
+  #vickai-application {
     padding-top: 0;
     grid-template-columns: repeat(1, 1fr);
     gap: 15px;
     display: grid;
   }
 
-  #vickai-bookbarks .vickai-container:last-child {
+  #vickai-application .vickai-container:last-child {
     margin-bottom: 0;
   }
+
+  #vickai-bookmark .vickai-bookmakr-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #vickai-bookmark .vickai-bookmark-nav a,
+  .vickai-category-title span {
+    font-size: 14px;
+  }
+  #vickai-bookmark .bookmarks-list {
+    padding: 5px;
+  }
+  #vickai-bookmark .bookmarks-list li a.item-bookmark {
+    font-size: 13px;
+  }
+  #vickai-bookmark .bookmarks-list li a.item-bookmark svg {
+    width: 20px;
+    height: 20px;
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   #vickai-services ul li .vickai-ts-dot-title {
   }
