@@ -45,9 +45,9 @@ func pageTheme(c *echo.Context) error {
 	m := pool.GetTemplateMap()
 	defer pool.PutTemplateMap(m)
 
-	// --- 🛠️ 关键一步：调用拼装函数并存入 Map ---
+	// --- 🛠️ 20260612调用拼装函数并存入 Map ---
 	m["VickaiApplication"] = home.GenerateVickaiApplication()
-	//m["VickaiServices"] = home.GenerateVickaiService()
+	m["VickaiBookmark"] = home.GenerateVickaiBookmark()
     // ----------------------------------------
 
 	m["Locale"] = locale
