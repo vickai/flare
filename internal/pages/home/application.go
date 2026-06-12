@@ -1,14 +1,14 @@
 package home
 
 import (
-	"context"      // 👈 新增：用于处理命令超时
-	"encoding/json" // 👈 新增：用于解析 Tailscale 的 JSON 输出
-	"os" // 新增 os 包用于读取本地文件
-	"os/exec"      // 👈 新增：用于执行 tailscale 和 ping 命令
-	"gopkg.in/yaml.v2" // 新增 解析 yml 文件
-	"net" // 探测在线状态
-	"strconv" // 探测在线状态
-	"time" // 时间包
+	"context"          // 20260612 新增：用于处理命令超时
+	"encoding/json"    // 20260612 新增：用于解析 Tailscale 的 JSON 输出
+	"os"               // 20260612 新增：用于读取本地文件
+	"os/exec"          // 20260612 新增：用于执行 tailscale 和 ping 命令
+	"gopkg.in/yaml.v2" // 20260612 新增：解析 yml 文件
+	"net"              // 20260612 新增：探测在线状态
+	"strconv"          // 20260612 新增：探测在线状态
+	"time"             // 20260612 新增：时间包
 	"html/template"
 	"strings"
 	"sync"
@@ -115,7 +115,7 @@ func GenerateApplicationsTemplate(filter string, options *model.Application) tem
 	return template.HTML(b.String())
 }
 
-
+// 20260612 新增函数
 // 内部函数：智能在线探测 (TCP + Ping 回退)
 func isVickaiAlive(ip string, port int) bool {
 	if ip == "" {
@@ -148,7 +148,7 @@ func isVickaiAlive(ip string, port int) bool {
 	return err == nil
 }
 
-
+// 20260612 新增页面顶部导航功能
 // GenerateVickaiNav 处理外部 vickai-nav.yml 并生成 HTML
 func GenerateVickaiNav() template.HTML {
 	// 1. 自动寻址（兼容 Docker 和本地）
@@ -216,7 +216,7 @@ func GenerateVickaiNav() template.HTML {
 	b.Reset()
 	defer builderPool.Put(b)
 
-	// 4. 【核心拼装】完全同步作者的图标与 URL 处理逻辑
+	// 4. 核心拼装，完全同步原作者的图标与 URL 处理逻辑
 	b.WriteString(`<div id="vickai-nav">`)
 	for _, app := range appsData.Items {
 		app.URL = fn.ParseDynamicUrl(app.URL)
@@ -285,7 +285,7 @@ func GenerateVickaiNav() template.HTML {
 	return template.HTML(b.String())
 }
 
-
+// 20260612 后台应用导航功能
 // GenerateVickaiApplication 处理外部 vickai-application.yml 并生成 HTML
 func GenerateVickaiApplication() template.HTML {
 	// 1. 自动寻址（兼容 Docker 和本地）
@@ -352,7 +352,7 @@ func GenerateVickaiApplication() template.HTML {
 	b.Reset()
 	defer builderPool.Put(b)
 
-	// 4. 【核心拼装】完全同步作者的图标与 URL 处理逻辑
+	// 4. 核心拼装，完全同步作者的图标与 URL 处理逻辑
 	for _, app := range appsData.Items {
 		app.URL = fn.ParseDynamicUrl(app.URL)
 		desc := app.Desc
@@ -422,11 +422,115 @@ func GenerateVickaiApplication() template.HTML {
 	return template.HTML(b.String())
 }
 
+// 20260612 后台书签导航功能
+// GenerateVickaiBookmark 专门读取 vickai-bookmark.yml 并生成 HTML
+func GenerateVickaiBookmark() template.HTML {
+	// 1. 自动寻址（兼容 Docker 和本地）
+	paths := []string{"/app/vickai-bookmark.yml", "./vickai-bookmark.yml"}
+	var buf []byte
+	var err error
+	for _, p := range paths {
+		buf, err = os.ReadFile(p)
+		if err == nil { break }
+	}
+	// 读不到文件则不显示
+	if err != nil { return template.HTML("") }
 
+	// 2. 解析 YAML (结构带有分类、links 层级)
+	// categories:
+	// - id: cate-id-1
+	//   title: 链接分类1
+	// - id: cate-id-2
+	//   title: 链接分类2
+	//
+	// links:
+	// - name: ChatGPT
+	//   link: https://chatgpt.com
+	//   icon: Qwen.svg
+	//   category: cate-id-1
 
-// GenerateVickaiService 生成带有分类导航、TCP探测及动态Tailscale状态的HTML内容
+	var data struct {
+		// 解析 YAML (使用 VickaiBookmarkCategory 结构 /config/model/bookmark.go)
+		// 解析 YAML (使用 VickaiBookmarkItem 结构 /config/model/bookmark.go)
+		Categories []model.VickaiBookmarkCategory `yaml:"categories"`
+		Links      []model.VickaiBookmarkItem     `yaml:"links"`
+	}
+	if err := yaml.Unmarshal(buf, &data); err != nil {
+		return template.HTML("vickai-bookmark.yml 格式解析错误")
+	}
+
+	// 安全边界判定：如果没有任何分类，则直接终止渲染流程
+	if len(data.Categories) == 0 {
+		return template.HTML("")
+	}
+
+	// 3. 内存桶聚类：将平铺的 Links 数组按照所属 Category 的 ID 进行归属聚类，
+	// 提升双层嵌套时的迭代效率
+	linkMap := make(map[string][]model.VickaiBookmarkItem)
+	for _, link := range data.Links {
+		linkMap[link.Category] = append(linkMap[link.Category], link)
+	}
+
+	// 4. 从系统对象池中回收并获取 strings.Builder，追求极致的高性能与低内存分配
+	b := builderPool.Get().(*strings.Builder)
+	b.Reset()
+	defer builderPool.Put(b)
+
+	// 5. 第一阶段：生成专属的网址快速切换大类导航栏
+	b.WriteString(`<div class="vickai-bookmark-nav">`)
+	for i, cate := range data.Categories {
+		categoryID := "n-cat-" + strconv.Itoa(i)
+		b.WriteString(`<a href="#` + categoryID + `">` + cate.Title + `</a>`)
+	}
+	b.WriteString(`</div>`)
+
+	// 6. 第二阶段：循环 Categories 生成书签网址列表
+	b.WriteString(`<div class="vickai-bookmakr-container clearfix">`)
+	for i, cate := range data.Categories {
+		categoryID := "n-cat-" + strconv.Itoa(i)
+
+		// 6.1 锚点大容器
+		b.WriteString(`<div class="vickai-bookmark-group" id="` + categoryID + `">`)
+		b.WriteString(`<h3 class="vickai-category-title"><span>` + cate.Title + `</span></h3>`)
+
+		// 6.2 书签网址列表
+		b.WriteString(`<ul class="bookmarks-list clearfix">`)
+
+		// 6.3 提取匹配当前分类 ID 桶里的书签网址链接列表
+		items := linkMap[cate.ID]
+		for _, item := range items {
+			b.WriteString(`<li><a class="item-bookmark" href="` + item.Link + `" target="_blank" rel="noopener noreferrer">`)
+
+			// 6.4 // 处理图标（MDI / HTTP图片 / Favicon）
+			templateIcon := ""
+			if strings.HasPrefix(item.Icon, "http://") || strings.HasPrefix(item.Icon, "https://") {
+				templateIcon = `<img src="` + item.Icon + `"/>`
+			} else if item.Icon != "" {
+				templateIcon = mdi.GetIconByName(item.Icon)
+			} else {
+				// 图标未配置时的缺省安全兜底机制
+				templateIcon = `<i class="mdi mdi-earth"></i>`
+			}
+
+			b.WriteString(templateIcon)
+
+			// 6.5 书签文本描述
+			b.WriteString(`<span>` + item.Name + `</span>`)
+
+			b.WriteString(`</a></li>`)
+		}
+
+		b.WriteString(`</ul></div>`)
+	}
+	b.WriteString(`</div>`)
+	return template.HTML(b.String())
+}
+
+// 20260612 新增后台服务在线检测功能
+// GenerateVickaiService 处理外部 vickai-services.yml 并生成 HTML
+// 生成带有分类导航、TCP探测及动态Tailscale状态的HTML内容
 func GenerateVickaiService() template.HTML {
-	// 1. 自动寻址与读取 YAML
+	// 1. 自动寻址（兼容 Docker 和本地）
 	paths := []string{"/app/vickai-services.yml", "./vickai-services.yml"}
 	var buf []byte
 	var err error
@@ -434,10 +538,24 @@ func GenerateVickaiService() template.HTML {
 		buf, err = os.ReadFile(p)
 		if err == nil { break }
 	}
+	// 读不到文件则不显示
 	if err != nil { return template.HTML("") }
 
-	// 2. 解析支持分类的 YAML 结构
+	// 2. 解析 YAML (结构必须带 groups 层级)
+	// groups:
+	//   - category: "Tailscale"    // 分类标记 Tailscale 通过 Socket 获取状态
+	//     items: []
+	//   - category: "郭井"
+	//     items:
+	//       - name: YXOpenWrt
+	//         ip: 10.11.10.3
+	//         port: 22
+	//       - name: AdGuardHome
+	//         ip: 10.11.10.3
+	//         port: 53
+
 	var data struct {
+		// 解析 YAML (使用 VickaiServiceGroup 结构 /config/model/bookmark.go)
 		Groups []model.VickaiServiceGroup `yaml:"groups"`
 	}
 	if err := yaml.Unmarshal(buf, &data); err != nil {
@@ -496,7 +614,7 @@ func GenerateVickaiService() template.HTML {
 		return hostName
 	}
 
-	// --- 6. 第一阶段：生成顶部导航栏 ---
+	// 6. 第一阶段：生成顶部导航栏
 	b.WriteString(`<div class="vickai-service-nav">`)
 	for i, group := range data.Groups {
 		categoryID := "v-cat-" + strconv.Itoa(i)
@@ -504,7 +622,7 @@ func GenerateVickaiService() template.HTML {
 	}
 	b.WriteString(`</div>`)
 
-	// --- 7. 第二阶段：生成详细列表内容 ---
+	// 7. 第二阶段：生成详细列表内容
 	for i, group := range data.Groups {
 		categoryID := "v-cat-" + strconv.Itoa(i)
 
