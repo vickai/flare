@@ -1,0 +1,208 @@
+# ==============================================================================
+# 📚 Flare 书签配置文件
+# 📝 图标选择 https://home.vickai.com/icons/
+#
+# ------------------------------------------------------------------------------
+categories:
+- id: cate-id-1
+  title: 链接分类1
+- id: cate-id-2
+  title: 链接分类2
+- id: cate-id-3
+  title: 链接分类3
+- id: cate-id-4
+  title: 链接分类4
+
+- id: cate-id-5
+  title: 链接分类5
+- id: cate-id-6
+  title: 链接分类6
+- id: cate-id-7
+  title: 链接分类7
+- id: cate-id-8
+  title: 链接分类8
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-1
+links:
+- name: ChatGPT
+  link: https://chatgpt.com
+  icon: Qwen.svg
+  category: cate-id-1
+- name: Claude
+  link: https://claude.ai
+  icon: Qwen.svg
+  category: cate-id-1
+- name: Gemini
+  link: https://gemini.google.com
+  icon: Gemini.svg
+  category: cate-id-1
+- name: Copilot
+  link: https://copilot.microsoft.com
+  icon:
+  category: cate-id-1
+- name: DeepSeek
+  link: https://www.deepseek.com
+  icon: Qwen.svg
+  category: cate-id-1
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-2
+- name: 示例链接
+  link: https://link.example.com
+  icon: Copilot.svg
+  category: cate-id-2
+- name: 示例链接
+  link: https://link.example.com
+  icon: KeyboardOutline
+  category: cate-id-2
+- name: 示例链接
+  link: https://link.example.com
+  icon: Incognito
+  category: cate-id-2
+- name: 示例链接
+  link: https://link.example.com
+  icon: mastodon
+  category: cate-id-2
+- name: 示例链接
+  link: https://link.example.com
+  icon: messageCog
+  category: cate-id-2
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-3
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaFCircleOutline
+  category: cate-id-3
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaLCircleOutline
+  category: cate-id-3
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaACircleOutline
+  category: cate-id-3
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaRCircleOutline
+  category: cate-id-3
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaECircleOutline
+  category: cate-id-3
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-4
+- name: 示例链接
+  link: https://link.example.com
+  icon: accountSupervisorCircle
+  category: cate-id-4
+- name: 示例链接
+  link: https://link.example.com
+  icon: flask
+  category: cate-id-4
+- name: 示例链接
+  link: https://link.example.com
+  icon: cityVariantOutline
+  category: cate-id-4
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaYCircleOutline
+  category: cate-id-4
+- name: 示例链接
+  link: https://link.example.com
+  icon: sproutOutline
+  category: cate-id-4
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-5
+- name: 示例链接
+  link: https://link.example.com
+  icon: accountSupervisorCircle
+  category: cate-id-5
+- name: 示例链接
+  link: https://link.example.com
+  icon: flask
+  category: cate-id-5
+- name: 示例链接
+  link: https://link.example.com
+  icon: cityVariantOutline
+  category: cate-id-5
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaYCircleOutline
+  category: cate-id-5
+- name: 示例链接
+  link: https://link.example.com
+  icon: sproutOutline
+  category: cate-id-5
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-6
+- name: 示例链接
+  link: https://link.example.com
+  icon: accountSupervisorCircle
+  category: cate-id-6
+- name: 示例链接
+  link: https://link.example.com
+  icon: flask
+  category: cate-id-6
+- name: 示例链接
+  link: https://link.example.com
+  icon: cityVariantOutline
+  category: cate-id-6
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaYCircleOutline
+  category: cate-id-6
+- name: 示例链接
+  link: https://link.example.com
+  icon: sproutOutline
+  category: cate-id-6
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-7
+- name: 示例链接
+  link: https://link.example.com
+  icon: accountSupervisorCircle
+  category: cate-id-7
+- name: 示例链接
+  link: https://link.example.com
+  icon: flask
+  category: cate-id-7
+- name: 示例链接
+  link: https://link.example.com
+  icon: cityVariantOutline
+  category: cate-id-7
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaYCircleOutline
+  category: cate-id-7
+- name: 示例链接
+  link: https://link.example.com
+  icon: sproutOutline
+  category: cate-id-7
+
+# ------------------------------------------------------------------------------
+# ---📌 cate-id-8
+- name: 示例链接
+  link: https://link.example.com
+  icon: accountSupervisorCircle
+  category: cate-id-8
+- name: 示例链接
+  link: https://link.example.com
+  icon: flask
+  category: cate-id-8
+- name: 示例链接
+  link: https://link.example.com
+  icon: cityVariantOutline
+  category: cate-id-8
+- name: 示例链接
+  link: https://link.example.com
+  icon: alphaYCircleOutline
+  category: cate-id-8
+- name: 示例链接
+  link: https://link.example.com
+  icon: sproutOutline
+  category: cate-id-8
