@@ -1,8 +1,12 @@
 {{ define "settings-theme.html" }}
 <div class="setting-group-container">
-<h2><span>{{ T .Locale "settings_theme" }}</span></h2>
-<div class="theme-groups clearfix" id="vickai-bookbarks">
-{{ .VickaiBookmarks }}
+<h2><span>私有应用导航</span></h2>
+<div class="theme-groups clearfix" id="vickai-application">
+{{ .VickaiApplication }}
+</div>
+<h2><span>私有书签导航</span></h2>
+<div class="theme-groups clearfix" id="vickai-bookmark">
+{{ .VickaiBookmark }}
 </div>
 </div>
 {{ end }}
